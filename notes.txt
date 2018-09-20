@@ -1,0 +1,7 @@
+
+-----------------------------
+- FROM ROOT -
+
+BUILD: mvn clean install
+LAUNCH: java -jar ./target/DeliveryServiceApi-0.0.1-SNAPSHOT.jar (ou autre jar produit)
+-----------------------------

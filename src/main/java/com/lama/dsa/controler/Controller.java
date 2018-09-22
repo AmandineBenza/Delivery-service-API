@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lama.dsa.model.IFood;
-import com.lama.dsa.model.IMenu;
-import com.lama.dsa.model.Menu;
+import com.lama.dsa.model.food.IFood;
+import com.lama.dsa.model.order.IOrder;
 import com.lama.dsa.service.IFoodService;
 import com.lama.dsa.service.IOrderService;
 
@@ -34,6 +33,9 @@ public class Controller {
 	@Autowired
 	private IOrderService orderService;
 	
+	/**
+	 * Get all the foods available in the catalogue.
+	 */
 	@RequestMapping(value = "FOOD/", method = RequestMethod.GET, produces = "application/xml")
 	@ApiOperation(value = "View the whole food catalogue", response = IFood.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food catalogue"),
@@ -42,5 +44,34 @@ public class Controller {
 		List<IFood> foods = foodService.getAll();
 		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
 	}
+
+	/**
+	 * By name.
+	 */
+	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.GET, produces = "application/xml")
+	@ApiOperation(value = "View the whole food catalogue", response = IFood.class, responseContainer = "List")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
+			@ApiResponse(code = 404, message = "No food was found") })
+	public ResponseEntity getFoodByName(@PathVariable String name) {
+		List<IFood> foods = foodService.getFoodByName(name);
+		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+	}
 	
+	@RequestMapping(value = "RESTAURANT/{restaurantName}/COMMANDS", method = RequestMethod.GET, produces = "application/xml")
+	@ApiOperation(value = "View a restaurant orders", response = IOrder.class, responseContainer = "List")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved orders"),
+			@ApiResponse(code = 404, message = "No order was found") })
+	public ResponseEntity getOrdersByRestaurantName(@PathVariable String restaurantName) {
+		List<IOrder> orders = orderService.getOrdersByRestaurantName(restaurantName);
+		return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "COURSIER/{coursierName}/COMMANDS", method = RequestMethod.GET, produces = "application/xml")
+	@ApiOperation(value = "View a coursier orders", response = IOrder.class, responseContainer = "List")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved orders"),
+			@ApiResponse(code = 404, message = "No order was found") })
+	public ResponseEntity getOrdersByCoursierName(@PathVariable String coursierName) {
+		List<IOrder> orders = orderService.getOrdersByCoursierName(coursierName);
+		return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+	}
 }

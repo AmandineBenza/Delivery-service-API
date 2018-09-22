@@ -1,4 +1,4 @@
-package com.lama.dsa.model;
+package com.lama.dsa.model.order;
 
 import java.util.Date;
 import java.util.List;

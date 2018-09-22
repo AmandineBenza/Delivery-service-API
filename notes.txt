@@ -75,11 +75,11 @@ Objects todo:
 Code model TODO
 
 Questions au prof:
-	> Sécurisation du paiement ?
-	> Besoin de restaurant ? 
+	> Sécurisation du paiement ? (authentification du restaurant / coursier ?)
 	> Quand paiement ? Ligne ou livreur (ligne à priori)
 	> Stats info ?
 	> Clients ?
+	> Besoin de restaurant ? 
 
 
 ----------------------------

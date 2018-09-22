@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lama.dsa.model.IFood;
+import com.lama.dsa.model.food.IFood;
 import com.lama.dsa.repository.IFoodRepository;
 
 @Transactional
@@ -24,5 +24,10 @@ public class FoodService implements IFoodService{
 	public List<IFood> getAll(){
 		return foodRepository.findAll();
 	}
-	
+
+	@Override
+	public List<IFood> getFoodByName(String name) {
+		return foodRepository.findByName(name);
+	}
+
 }

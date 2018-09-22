@@ -1,10 +1,13 @@
 package com.lama.dsa.repository;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
-import com.lama.dsa.model.IFood;
+
+import com.lama.dsa.model.food.IFood;
 
 public interface IFoodRepository extends MongoRepository<IFood, String>{
 
-	public IFood findByIdAndRestaurantIdAndPrice(int id, int restaurantId, float price);
-
+	public List<IFood> findByName(String name);
+	
 }

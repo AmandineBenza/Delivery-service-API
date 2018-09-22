@@ -1,4 +1,4 @@
-package com.lama.dsa.model;
+package com.lama.dsa.model.food;
 
 public class Food implements IFood {
 

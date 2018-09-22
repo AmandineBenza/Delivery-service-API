@@ -1,4 +1,4 @@
-package com.lama.dsa.model;
+package com.lama.dsa.model.restaurant;
 
 public class Restaurant implements IRestaurant{
 

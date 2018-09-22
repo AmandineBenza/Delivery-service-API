@@ -8,13 +8,10 @@ LAUNCH: java -jar ./target/DeliveryServiceApi-0.0.1-SNAPSHOT.jar (ou autre jar p
 
 1. As Bob, a hungry student, I browse the food catalogue offered by Uberoo:
 
-	- restaurants list
-	- restaurants' menus list 
 
 2. I decide to go for an asian meal, ordering a ramen soup:
 
 	- Type of restaurant /DSA/ASIAN/Ramen soup 		>> list of foods with restaurant name, availability
-	- 
 
 3. The system estimates the ETA (e.g., 45 mins) for the food, and I decide to accept it:
 	- for each food ?
@@ -26,19 +23,12 @@ LAUNCH: java -jar ./target/DeliveryServiceApi-0.0.1-SNAPSHOT.jar (ou autre jar p
 
 
 
--
 Different services ?
 MongoDB: stored under JSON format
 
 - client service
 	> GET
-	:v1
-		_ localhost:8080/DSA/RESTAURANTS
-		_ localhost:8080/DSA/RESTAURANTS/KUMANO 
-		_ localhost:8080/DSA/RESTAURANTS/KUMANO/ramen_soup
-			. (localhost:8080/DSA/RESTAURANTS/KUMANO?food=ramen_soop)
-	:v2
-		_ localhost:8080/DSA/{FOOD}
+		_ localhost:8080/DSA/FOOD (all food list)
 		_ localhost:8080/DSA/FOOD/ramenVegeKumano (including restaurant in name)
 			. dataload: address to have estimated time
 
@@ -58,13 +48,46 @@ MongoDB: stored under JSON format
 		_ localhost:8080/DSA/RESTAURANT/{RESTAURANT}/COMMANDS
 	> POST
 		_ localhost:8080/DSA/RESTAURANT/{RESTAURANT}/COMMANDS/{COMMAND}
-			. validation
+			. validation (command ended)
 
 - coursier service
 	> GET 
 		_ localhost:8080/DSA/COURSIER/{COURSIER}/COMMANDS
 	> POST 
 		_ localhost:8080/DSA/COURSIER/{COURSIER}/COMMANDS/{COMMAND}
+			. command provided
+
+- stats service
+	> obtain TBETOF info
+
+
+//
+
+Objects todo:
+	- Entity : Menu ou Food
+	- Food (restaurant)
+	- Restaurant ()
+	- Menu (referencing existing food)
+
+
+
+
+Code model TODO
+
+Questions au prof:
+	> Sécurisation du paiement ?
+	> Besoin de restaurant ? 
+	> Quand paiement ? Ligne ou livreur (ligne à priori)
+	> Stats info ?
+	> Clients ?
+
+
+----------------------------
+Rubbish:
+		_ Food notation
+		_ Coursier notation
+		_ 
+
 
 ----------------------------
 nb
@@ -75,13 +98,8 @@ AVEC LES FAUTES CEST MIEUX
 CA FAIT PLUS HUMAIN
 ----------------------------
 
-Code model TODO
-
-Questions au prof:
-	> Sécurisation du paiement ?
-	> Besoin de restaurant ? 
-
-
-Rubbish:
-		_ Food notation
-		_ Coursier notation
+	:v1
+		_ localhost:8080/DSA/RESTAURANTS
+		_ localhost:8080/DSA/RESTAURANTS/KUMANO 
+		_ localhost:8080/DSA/RESTAURANTS/KUMANO/ramen_soup
+			. (localhost:8080/DSA/RESTAURANTS/KUMANO?food=ramen_soop)

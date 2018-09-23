@@ -8,12 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lama.dsa.model.order.Order;
-import com.lama.dsa.orderRepository.IOrderRepository;
+import com.lama.dsa.repository.order.IOrderRepository;
 
 @Transactional
 @Service("OrderService")
-public class OrderService implements IOrderService
-{
+public class OrderService implements IOrderService {
 
 	@Autowired
 	private IOrderRepository orderRepository;
@@ -22,17 +21,28 @@ public class OrderService implements IOrderService
 		
 	}
 
-	
+	@Override
+	public List<Order> getOrdersByRestaurantId(int restaurantId) {
+		return orderRepository.findByRestaurantId(restaurantId);
+	}
 
 	@Override
-	public List<Order> getOrdersBycoursierId(String coursierId) {
-		// TODO Auto-generated method stub
+	public List<Order> getOrdersByCoursierId(int coursierId) {
 		return orderRepository.findByCoursierId(coursierId);
 	}
 
-//	@Override
-//	public List<Order> getOrdersByCoursierName(String coursierName) {
-//		return orderRepository.findByCoursierName(coursierName);
-//	}
+	// TODO
+	@Override
+	public List<Order> getOrdersByRestaurantIds(List<Integer> restaurantsIds) {
+		return null;
+	}
+
+	// TODO
+	@Override
+	public List<Order> getOrdersByCoursierIds(List<Integer> coursiersIds) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 

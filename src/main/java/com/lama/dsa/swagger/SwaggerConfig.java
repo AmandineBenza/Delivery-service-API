@@ -20,22 +20,21 @@ public class SwaggerConfig {
 	@Bean
 	public Docket productApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.lama.rsa.controller")).paths(regex("/RSA/GET/.*"))
+				.apis(RequestHandlerSelectors.basePackage("com.lama.dsa.controller")).paths(regex("/DSA/GET/.*"))
 				.build().apiInfo(metaData()).useDefaultResponseMessages(false) // to avoid default value for unhandled HTTP status code
 				.genericModelSubstitutes(Optional.class);
 	}
 
 	private ApiInfo metaData() {
-		ApiInfo apiInfo = new ApiInfo("Ramen Service REST API",
-				"Ramen Service REST API for you to enjoy fresh food data",
+		ApiInfo apiInfo = new ApiInfo("Delivery Service REST API",
+				"Delivery Service REST API for you to enjoy fresh food data",
 				"1.0", "TeamLama",
 				
 				new Contact("Nice-Sophia-Antipolis University",
 						"Master 2 IFI - AL",
 						"2017-2018"),
 				
-				"�TeamLama",
-				"http://www.amadeus.com/");
+				"TeamLama", null);
 		
 		return apiInfo;
 	}

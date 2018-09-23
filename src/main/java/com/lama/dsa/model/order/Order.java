@@ -9,8 +9,7 @@ public class Order{
 	private int restaurantId;
 	private int coursierId;
 	
-	private String address;
-	private String clientName;
+	private int clientId;
 	
 	private Date creationTime;
 	private Date deliveryTime;
@@ -18,13 +17,12 @@ public class Order{
 	private EnumOrderStatus status;
 	private List<Integer> foodIds;
 	
-	public Order(int id, int restaurantId, int coursierId, String address, String clientName, Date creationTime,
+	public Order(int id, int restaurantId, int coursierId, int clientId, Date creationTime,
 			Date deliveryTime, EnumOrderStatus status, List<Integer> foodIds) {
 		this.id = id;
 		this.restaurantId = restaurantId;
 		this.coursierId = coursierId;
-		this.address = address;
-		this.clientName = clientName;
+		this.clientId = clientId;
 		this.creationTime = creationTime;
 		this.deliveryTime = deliveryTime;
 		this.status = status;
@@ -55,20 +53,12 @@ public class Order{
 		this.coursierId = coursierId;
 	}
 
-	public String getAddress() {
-		return address;
+	public int getClientId() {
+		return clientId;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getClientName() {
-		return clientName;
-	}
-
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
+	public void setClientId(String clientName) {
+		this.clientId = clientId;
 	}
 
 	public Date getCreationTime() {

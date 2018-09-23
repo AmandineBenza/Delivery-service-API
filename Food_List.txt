@@ -1,0 +1,51 @@
+id | restaurantId | price | name | description 
+
+* 0 | 0 | 11.90 | Salad of the day by Sun City Cafe | Today is the day you will eat salad
+
+* 1 | 0 | 13.9 | Hamburger by Sun City Cafe | Compose your own burger
+
+* 2 | 0 | 13.5 | Pâtes by Sun City Cafe | Choose the perfect sauce to accompany your perfect dish (Roquefort is the best)
+
+* 3 | 0 | 12 | Fried Chicken by Sun City Cafe | A bucket of fried chicken. Like KFC, but better.
+
+* 4 | 0 | 8 | Mozzarella stick by Sun City Cafe | Like fried chicken, but without chicken. And with mozzarella. So not fried chicken. 
+
+* 5 | 1 | 8.8 | Onion Rings by Chez Max | Fried onions
+
+* 6 | 1 | 8.8 | Fried Camembert by Chez Max| Fried french cheese
+
+* 7 | 1 | 16.90 | Fritto Misto by Chez Max | Fried fish
+
+* 8 | 1 | 16 | Tartiflette Burger by Chez Max | Burger with reblochon
+
+* 9 | 1 | 13.5 | Caesar salad by Chez Max | Caesar salad
+
+* 10 | 2 | 8.0 | Laab Tofu by Absolute Thaï | Tofu salad with rice en lemon sauce
+
+* 11 | 2 | 6.9 | Tom Kah Phak by Absolute Thaï | Vegetables soup with coconut, mushrooms and other stuffs
+
+* 12 | 2 | 10.0 | Gaeng Kiew Wan Tha-Hoo by Absolute Thaï | Vegetables with green curry, tofu, coconut milk and a lot of other stuffs
+
+* 13 | 2 | 10.0 | Geang Phed To-hoo by Absolute Thaï | Red curry, pineapple, tofu, tomato and grappes
+
+* 14 | 2 | 12.0 | Phad Priew wan to-hoo by Absolute Thaï | Vegetables wok with pineapple and tofu
+
+* 15 | 3 | 10 | Sashimi by Sushi for you | Raw tuna slices
+
+* 16 | 3 | 6.5 | Avocado maki by Sushi for you | Rice, seaweed and avocado
+
+* 17 | 3 | 7.1 | California raibow by Sushi for you| Not a real rainbow but almost
+
+* 18 | 3 | 6.8 | Shrimp sushi by Sushi for you| Everything is in the name
+
+* 19 | 3 | 6.5 | Spring rolls salmon by Sushi for you| You can eat it even when it's not springtime
+
+* 20 | 4 | 7 | Margherita by Pizza FAFA | Tomato sauce and mozzarella
+
+* 21 | 4 | 10 | Pepperoni by Pizza FAFA | Tomato sauce, mozzarella and pepperoni
+
+* 22 | 4 | 9 | Vegetables by Pizza FAFA | Tomato sauce, mozzarella, mushrooms, onions, mixed peppers, black olives, fresh tomatoes, oregano.
+
+* 23 | 4 | 11 | Pepper beef by Pizza FAFA | Tomato sauce, mozzarella, beef slices, onions, mixed peppers, black olives, oregano.
+
+* 24 | 4 | 13 | Deluxe by Pizza FAFA | Try to imagine your dream pizza. It's this one, but better.

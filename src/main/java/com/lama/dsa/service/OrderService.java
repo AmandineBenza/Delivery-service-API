@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lama.dsa.model.order.IOrder;
+import com.lama.dsa.model.order.Order;
 import com.lama.dsa.repository.IOrderRepository;
 
 @Transactional
@@ -21,12 +21,12 @@ public class OrderService implements IOrderService{
 	}
 
 	@Override
-	public List<IOrder> getOrdersByRestaurantName(String restaurantName) {
+	public List<Order> getOrdersByRestaurantName(String restaurantName) {
 		return orderRepository.findByRestaurantName(restaurantName);
 	}
 
 	@Override
-	public List<IOrder> getOrdersByCoursierName(String coursierName) {
+	public List<Order> getOrdersByCoursierName(String coursierName) {
 		return orderRepository.findByCoursierName(coursierName);
 	}
 }

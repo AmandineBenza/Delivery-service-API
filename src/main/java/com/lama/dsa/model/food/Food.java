@@ -1,6 +1,6 @@
 package com.lama.dsa.model.food;
 
-public class Food implements IFood {
+public class Food {
 
 	private int id;
 	private int restaurantId;

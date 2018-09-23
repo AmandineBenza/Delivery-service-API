@@ -2,12 +2,12 @@ package com.lama.dsa.service;
 
 import java.util.List;
 
-import com.lama.dsa.model.food.IFood;
+import com.lama.dsa.model.food.Food;
 
 public interface IFoodService {
 
-	public List<IFood> getAll();
+	public List<Food> getAll();
 	
-	public List<IFood> getFoodByName(String name);
+	public List<Food> getFoodByName(String name);
 	
 }

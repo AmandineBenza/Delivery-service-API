@@ -1,6 +1,6 @@
 package com.lama.dsa.model.order;
 
-public class Coursier implements ICoursier{
+public class Coursier{
 	
 	private int id;
 	private String name;

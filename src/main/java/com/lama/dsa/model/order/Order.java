@@ -3,7 +3,7 @@ package com.lama.dsa.model.order;
 import java.util.Date;
 import java.util.List;
 
-public class Order implements IOrder{
+public class Order{
 
 	private int id;
 	private int restaurantId;

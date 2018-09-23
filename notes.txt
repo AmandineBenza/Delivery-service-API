@@ -61,6 +61,22 @@ MongoDB: stored under JSON format
 	> obtain TBETOF info
 
 
+[Ubuntu]
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+
+[LINUX - start mongodb]
+> sudo service mongod start
+> cat /var/log/mongodb/mongod.log (check "[initandlisten] waiting for connections on port 27017" exists)
+
+[LINUX - stop mongodb]
+> sudo service mongod stop
+
+[LINUX - restart mongodb]
+sudo service mongod restart
+
+[UI : Robo3T ; https://robomongo.org/download]
+
+
 //
 
 Objects todo:

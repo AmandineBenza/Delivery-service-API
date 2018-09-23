@@ -1,5 +1,5 @@
 
-package com.lama.dsa.repository;
+package com.lama.dsa.foodRepository;
 
 import java.util.List;
 

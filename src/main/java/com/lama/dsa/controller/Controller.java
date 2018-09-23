@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lama.dsa.model.food.Food;
-import com.lama.dsa.model.food.IFood;
-import com.lama.dsa.model.order.IOrder;
 import com.lama.dsa.model.order.Order;
 import com.lama.dsa.service.IFoodService;
 import com.lama.dsa.service.IOrderService;
@@ -39,7 +37,7 @@ public class Controller {
 	 * Get all the foods available in the catalogue.
 	 */
 	@RequestMapping(value = "/FOOD", method = RequestMethod.GET, produces = "application/xml")
-	@ApiOperation(value = "View the whole food catalogue", response = IFood.class, responseContainer = "List")
+	@ApiOperation(value = "View the whole food catalogue", response = Food.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food catalogue"),
 			@ApiResponse(code = 404, message = "No food was found") })
 	public ResponseEntity getAllFoods() {
@@ -54,7 +52,7 @@ public class Controller {
 	 * By name.
 	 */
 	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.GET, produces = "application/xml")
-	@ApiOperation(value = "View the whole food catalogue", response = IFood.class, responseContainer = "List")
+	@ApiOperation(value = "View the whole food catalogue", response = Food.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No food was found") })
 	public ResponseEntity getFoodByName(@PathVariable String name) {
@@ -91,7 +89,7 @@ public class Controller {
 	// }
 
 	@RequestMapping(value = "COURSIER/{coursierName}/COMMANDS", method = RequestMethod.GET, produces = "application/xml")
-	@ApiOperation(value = "View a coursier orders", response = IOrder.class, responseContainer = "List")
+	@ApiOperation(value = "View a coursier orders", response = Order.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved orders"),
 			@ApiResponse(code = 404, message = "No order was found") })
 	public ResponseEntity getOrdersByCoursierName(@PathVariable String coursierName) {

@@ -7,9 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lama.dsa.foodRepository.IFoodRepository;
 import com.lama.dsa.model.food.Food;
-import com.lama.dsa.model.food.IFood;
-import com.lama.dsa.repository.IFoodRepository;
 
 @Transactional
 @Service("FoodService")

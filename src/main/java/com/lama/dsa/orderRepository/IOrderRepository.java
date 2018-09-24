@@ -13,5 +13,7 @@ public interface IOrderRepository extends MongoRepository<Order, Integer>
 //	public List<Order> findByCoursierName(String coursierName);
 
 	public List<Order> findByCoursierId(String coursierId);
+
+	public List<Order> getOrdersById(long id);
 	
 }

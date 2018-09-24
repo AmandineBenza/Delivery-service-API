@@ -26,8 +26,36 @@ public class OrderService implements IOrderService
 
 	@Override
 	public List<Order> getOrdersBycoursierId(String coursierId) {
-		// TODO Auto-generated method stub
 		return orderRepository.findByCoursierId(coursierId);
+	}
+
+
+
+	@Override
+	public long getNewOId() {
+		
+		return orderRepository.count() + 1;
+	}
+
+
+
+	@Override
+	public void insertOrder(Order order) {
+		orderRepository.insert(order);
+	}
+
+
+
+	@Override
+	public List<Order> getOrdersById(long id) {
+		return orderRepository.getOrdersById(id);
+	}
+
+
+
+	@Override
+	public void updateOrder(Order order) {
+		orderRepository.save(order);
 	}
 
 //	@Override

@@ -1,6 +1,7 @@
 package com.lama.dsa.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lama.dsa.model.food.Food;
+import com.lama.dsa.model.order.EnumOrderStatus;
 import com.lama.dsa.model.order.Order;
 import com.lama.dsa.service.IFoodService;
 import com.lama.dsa.service.IOrderService;
@@ -36,7 +39,7 @@ public class Controller {
 	/**
 	 * Get all the foods available in the catalogue.
 	 */
-	@RequestMapping(value = "/FOOD", method = RequestMethod.GET, produces = "application/xml")
+	@RequestMapping(value = "/FOOD", method = RequestMethod.GET)
 	@ApiOperation(value = "View the whole food catalogue", response = Food.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food catalogue"),
 			@ApiResponse(code = 404, message = "No food was found") })
@@ -51,7 +54,7 @@ public class Controller {
 	/**
 	 * By name.
 	 */
-	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.GET, produces = "application/xml")
+	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.GET)
 	@ApiOperation(value = "View the whole food catalogue", response = Food.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No food was found") })
@@ -63,37 +66,53 @@ public class Controller {
 				 */ HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "FOOD/{name}/{price}/{id},{restaurantId}/{description}", method = RequestMethod.POST, produces = "application/xml")
+	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.POST )
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No food was found") })
-	public ResponseEntity addFood(@PathVariable String name,@PathVariable String description,@PathVariable int id,@PathVariable int restaurantId,@PathVariable float price) {
-		Food food = new Food(id , restaurantId, price, name,  description);
-		foodService.insertFood(food);
-		return new ResponseEntity(food,
-				 HttpStatus.OK);
+	public ResponseEntity addFood(@PathVariable("name") String foodName,
+			@RequestParam("clientName") String clientName, 
+			@RequestParam("address") String address 
+			) {
+		//TODO improve but no id on name so ...
+		Food orderedFood = foodService.getFoodByName(foodName).get(0);
+		ArrayList<Integer> orderedFoods = new ArrayList<Integer>();
+		orderedFoods.add(orderedFood.getId());
+		Order order = new Order(orderService.getNewOId(), orderedFood.getRestaurantId(),-1, address,  clientName,new Date(),
+				null, EnumOrderStatus.ONGOING, orderedFoods );
+		orderService.insertOrder(order);
+		return new ResponseEntity(order, HttpStatus.OK);
 	}
 
-	// @RequestMapping(value = "RESTAURANT/{restaurantName}/COMMANDS", method =
-	// RequestMethod.GET, produces = "application/xml")
-	// @ApiOperation(value = "View a restaurant orders", response =
-	// IOrder.class, responseContainer = "List")
-	// @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully
-	// retrieved orders"),
-	// @ApiResponse(code = 404, message = "No order was found") })
-	// public ResponseEntity getOrdersByRestaurantName(@PathVariable String
-	// restaurantName) {
-	// List<Order> orders =
-	// orderService.getOrdersByRestaurantName(restaurantName);
-	// return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ?
-	// HttpStatus.NOT_FOUND : HttpStatus.OK);
-	// }
 
-	@RequestMapping(value = "COURSIER/{coursierName}/COMMANDS", method = RequestMethod.GET, produces = "application/xml")
+	@RequestMapping(value = "RESTAURANT/{RESTAURANT}/COMMANDS/{COMMAND}", method = RequestMethod.POST )
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
+			@ApiResponse(code = 404, message = "No food was found") })
+	public ResponseEntity sendToDeliver(@PathVariable("RESTAURANT") String foodName,
+			@PathVariable("COMMAND") long orderId){
+		Order order = orderService.getOrdersById(orderId).get(0);
+		if( order.getStatus() == EnumOrderStatus.ONGOING){
+			order.setStatus(EnumOrderStatus.TODELIVER);
+			orderService.updateOrder(order);}
+		return new ResponseEntity( order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "COURSIER/{coursierName}/COMMANDS/{orderId}", method = RequestMethod.POST )
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
+			@ApiResponse(code = 404, message = "No food was found") })
+	public ResponseEntity deliverFood(@PathVariable("coursierName") String foodName,
+			@PathVariable("orderId") long orderId){
+		Order order = orderService.getOrdersById(orderId).get(0);
+		order.setDeliveryTime(new Date());
+		order.setStatus(EnumOrderStatus.DELIVERED);
+		orderService.updateOrder(order);
+		return new ResponseEntity( order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "COURSIER/{coursierName}/COMMANDS", method = RequestMethod.GET)
 	@ApiOperation(value = "View a coursier orders", response = Order.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved orders"),
 			@ApiResponse(code = 404, message = "No order was found") })
 	public ResponseEntity getOrdersByCoursierName(@PathVariable String coursierName) {
-
 		List<Order> orders = orderService.getOrdersBycoursierId(coursierName);
 		return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
 	}

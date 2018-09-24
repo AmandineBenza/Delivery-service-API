@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Order{
 
-	private int id;
+	private long id;
 	private int restaurantId;
 	private int coursierId;
 	
@@ -18,7 +18,7 @@ public class Order{
 	private EnumOrderStatus status;
 	private List<Integer> foodIds;
 	
-	public Order(int id, int restaurantId, int coursierId, String address, String clientName, Date creationTime,
+	public Order(long id, int restaurantId, int coursierId, String address, String clientName, Date creationTime,
 			Date deliveryTime, EnumOrderStatus status, List<Integer> foodIds) {
 		this.id = id;
 		this.restaurantId = restaurantId;
@@ -31,11 +31,11 @@ public class Order{
 		this.foodIds = foodIds;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

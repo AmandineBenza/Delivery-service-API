@@ -9,6 +9,7 @@ public interface IOrderService {
 
 	public List<Order> getOrdersById(long id);
 	public List<Order> getOrdersBycoursierId(String coursierId);
+	public List<Order> getOrdersBycoursierId(int coursierId);
 	public List<Order> getOrdersByRestaurantId(int restaurantId);
 	public List<Order> getOrdersByCoursierId(int coursierId);
 	public List<Order> getOrdersByRestaurantIds(List<Integer> restaurantsIds);

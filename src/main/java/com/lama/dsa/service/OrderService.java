@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lama.dsa.model.order.Order;
-import com.lama.dsa.orderRepository.IOrderRepository;
+import com.lama.dsa.repository.order.IOrderRepository;
 
 @Transactional
 @Service("OrderService")
@@ -25,7 +25,7 @@ public class OrderService implements IOrderService
 	
 
 	@Override
-	public List<Order> getOrdersBycoursierId(String coursierId) {
+	public List<Order> getOrdersBycoursierId(int coursierId) {
 		return orderRepository.findByCoursierId(coursierId);
 	}
 
@@ -83,6 +83,14 @@ public class OrderService implements IOrderService
 	// TODO
 	@Override
 	public List<Order> getOrdersByCoursierIds(List<Integer> coursiersIds) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public List<Order> getOrdersBycoursierId(String coursierId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

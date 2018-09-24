@@ -31,53 +31,50 @@ import io.swagger.annotations.ApiResponses;
 public class Controller {
 
 	@Autowired
+	private IControllerHelper helper;
+	
+	@Autowired
 	private IFoodService foodService;
 
 	@Autowired
 	private IOrderService orderService;
 
 	/**
-	 * Get all the foods available in the catalogue.
+	 * Get all the foods available in the database.
 	 */
-	@RequestMapping(value = "/FOOD", method = RequestMethod.GET)
+	
+	@RequestMapping(value = "/FOOD", method = RequestMethod.GET, produces = "application/json")
 	@ApiOperation(value = "View the whole food catalogue", response = Food.class, responseContainer = "List")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food catalogue"),
-			@ApiResponse(code = 404, message = "No food was found") })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food catalogue."),
+			@ApiResponse(code = 404, message = "No food was found.") })
 	public ResponseEntity getAllFoods() {
 		List<Food> foods = foodService.getAll();
-		return new ResponseEntity(foods,
-				/*
-				 * (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND :
-				 */ HttpStatus.OK);
+		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
 	}
 
 	/**
-	 * By name.
+	 * Get food by given food name.
 	 */
-	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.GET)
-	@ApiOperation(value = "View the whole food catalogue", response = Food.class, responseContainer = "List")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
+	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.GET, produces = "application/json")
+	@ApiOperation(value = "View food given a food name", response = Food.class, responseContainer = "List")	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No food was found") })
 	public ResponseEntity getFoodByName(@PathVariable String name) {
 		List<Food> foods = foodService.getFoodByName(name);
-		return new ResponseEntity(foods,
-				/*
-				 * (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND :
-				 */ HttpStatus.OK);
+		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.POST )
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No food was found") })
 	public ResponseEntity addFood(@PathVariable("name") String foodName,
-			@RequestParam("clientName") String clientName, 
+			@RequestParam("clientid") long clientId, 
 			@RequestParam("address") String address 
 			) {
 		//TODO improve but no id on name so ...
 		Food orderedFood = foodService.getFoodByName(foodName).get(0);
 		ArrayList<Integer> orderedFoods = new ArrayList<Integer>();
 		orderedFoods.add(orderedFood.getId());
-		Order order = new Order(orderService.getNewOId(), orderedFood.getRestaurantId(),-1, address,  clientName,new Date(),
+		Order order = new Order(orderService.getNewOId(), orderedFood.getRestaurantId(),-1, address,  clientId,new Date(),
 				null, EnumOrderStatus.ONGOING, orderedFoods );
 		orderService.insertOrder(order);
 		return new ResponseEntity(order, HttpStatus.OK);
@@ -108,12 +105,15 @@ public class Controller {
 		return new ResponseEntity( order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "COURSIER/{coursierName}/COMMANDS", method = RequestMethod.GET)
+	/**
+	 * Get commands of a coursier (get by name).
+	 */
+	@RequestMapping(value = "COURSIER/{coursierName}/COMMANDS", method = RequestMethod.GET, produces = "application/json")
 	@ApiOperation(value = "View a coursier orders", response = Order.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved orders"),
 			@ApiResponse(code = 404, message = "No order was found") })
 	public ResponseEntity getOrdersByCoursierName(@PathVariable String coursierName) {
-		List<Order> orders = orderService.getOrdersBycoursierId(coursierName);
+		List<Order> orders = orderService.getOrdersByCoursierIds(helper.getCoursierIdsFromName(coursierName));
 		return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
 	}
 }

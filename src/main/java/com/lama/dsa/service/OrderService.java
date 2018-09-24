@@ -62,5 +62,30 @@ public class OrderService implements IOrderService
 //	public List<Order> getOrdersByCoursierName(String coursierName) {
 //		return orderRepository.findByCoursierName(coursierName);
 //	}
+	//}
+
+	@Override
+	public List<Order> getOrdersByRestaurantId(int restaurantId) {
+		return orderRepository.findByRestaurantId(restaurantId);
+	}
+
+	@Override
+	public List<Order> getOrdersByCoursierId(int coursierId) {
+		return orderRepository.findByCoursierId(coursierId);
+	}
+
+	// TODO
+	@Override
+	public List<Order> getOrdersByRestaurantIds(List<Integer> restaurantsIds) {
+		return null;
+	}
+
+	// TODO
+	@Override
+	public List<Order> getOrdersByCoursierIds(List<Integer> coursiersIds) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 

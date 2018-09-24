@@ -1,6 +1,6 @@
 package com.lama.dsa.model.restaurant;
 
-public class Restaurant implements IRestaurant{
+public class Restaurant {
 
 	private int id;
 	private String name;

@@ -11,7 +11,7 @@ public interface IFoodService {
 	
 	public List<Food> getFoodByName(String name);
 
-	Food insertFood(Food food);
+	public Food insertFood(Food food);
 	
 }
 

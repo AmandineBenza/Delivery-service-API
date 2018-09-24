@@ -9,8 +9,9 @@ import com.lama.dsa.model.order.Order;
 public interface IOrderRepository extends MongoRepository<Order, Integer>
 {
 
-
-//	public List<Order> findByCoursierName(String coursierName);
+  public List<Order> findByRestaurantId(int restaurantId);
+  
+    public List<Order> findByCoursierId(int coursierId);
 
 	public List<Order> findByCoursierId(String coursierId);
 

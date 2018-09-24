@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lama.dsa.model.food.Food;
 import com.lama.dsa.model.order.EnumOrderStatus;
 import com.lama.dsa.model.order.Order;
-import com.lama.dsa.service.IFoodService;
-import com.lama.dsa.service.IOrderService;
+import com.lama.dsa.service.food.IFoodService;
+import com.lama.dsa.service.order.IOrderService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/DSA/")
-@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
+@SuppressWarnings({ "rawtypes", "unchecked"})
 @Api(value = "dsa", description = "Resources pertaining to Fresh Food Delivery Information")
 public class Controller {
 
@@ -49,6 +49,7 @@ public class Controller {
 			@ApiResponse(code = 404, message = "No food was found.") })
 	public ResponseEntity getAllFoods() {
 		List<Food> foods = foodService.getAll();
+		foodService.insertFood(new Food(0, 0, 450, "Legendary ramen", "Netero official food."));
 		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
 	}
 
@@ -63,23 +64,21 @@ public class Controller {
 		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.POST )
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
-			@ApiResponse(code = 404, message = "No food was found") })
-	public ResponseEntity addFood(@PathVariable("name") String foodName,
+	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.POST)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully ordered food."),
+			@ApiResponse(code = 404, message = "Order failed.") })
+	public ResponseEntity orderFood(@PathVariable("name") String foodName,
 			@RequestParam("clientid") long clientId, 
-			@RequestParam("address") String address 
-			) {
+			@RequestParam("address") String address) {
 		//TODO improve but no id on name so ...
 		Food orderedFood = foodService.getFoodByName(foodName).get(0);
 		ArrayList<Integer> orderedFoods = new ArrayList<Integer>();
 		orderedFoods.add(orderedFood.getId());
-		Order order = new Order(orderService.getNewOId(), orderedFood.getRestaurantId(),-1, address,  clientId,new Date(),
-				null, EnumOrderStatus.ONGOING, orderedFoods );
+		Order order = new Order(orderService.getNewOId(), orderedFood.getRestaurantId(), -1,
+				address, clientId,new Date(), null, EnumOrderStatus.ONGOING, orderedFoods );
 		orderService.insertOrder(order);
 		return new ResponseEntity(order, HttpStatus.OK);
 	}
-
 
 	@RequestMapping(value = "RESTAURANT/{RESTAURANT}/COMMANDS/{COMMAND}", method = RequestMethod.POST )
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
@@ -87,10 +86,13 @@ public class Controller {
 	public ResponseEntity sendToDeliver(@PathVariable("RESTAURANT") String foodName,
 			@PathVariable("COMMAND") long orderId){
 		Order order = orderService.getOrdersById(orderId).get(0);
-		if( order.getStatus() == EnumOrderStatus.ONGOING){
+		
+		if(order.getStatus() == EnumOrderStatus.ONGOING){
 			order.setStatus(EnumOrderStatus.TODELIVER);
-			orderService.updateOrder(order);}
-		return new ResponseEntity( order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
+			orderService.updateOrder(order);
+		}
+		
+		return new ResponseEntity(order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "COURSIER/{coursierName}/COMMANDS/{orderId}", method = RequestMethod.POST )

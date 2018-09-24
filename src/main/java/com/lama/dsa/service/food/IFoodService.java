@@ -1,5 +1,5 @@
 
-package com.lama.dsa.service;
+package com.lama.dsa.service.food;
 
 import java.util.List;
 

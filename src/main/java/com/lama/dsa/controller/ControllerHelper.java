@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 
 import com.lama.dsa.model.order.Coursier;
 import com.lama.dsa.model.restaurant.Restaurant;
-import com.lama.dsa.service.ICoursierService;
-import com.lama.dsa.service.IFoodService;
-import com.lama.dsa.service.IOrderService;
-import com.lama.dsa.service.IRestaurantService;
+import com.lama.dsa.service.coursier.ICoursierService;
+import com.lama.dsa.service.food.IFoodService;
+import com.lama.dsa.service.order.IOrderService;
+import com.lama.dsa.service.restaurant.IRestaurantService;
 
 
 @Component

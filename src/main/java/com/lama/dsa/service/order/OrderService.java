@@ -1,5 +1,5 @@
 
-package com.lama.dsa.service;
+package com.lama.dsa.service.order;
 
 import java.util.List;
 
@@ -12,57 +12,45 @@ import com.lama.dsa.repository.order.IOrderRepository;
 
 @Transactional
 @Service("OrderService")
-public class OrderService implements IOrderService
-{
+public class OrderService implements IOrderService {
 
 	@Autowired
 	private IOrderRepository orderRepository;
-	
-	public OrderService(){
-		
-	}
 
-	
+	public OrderService() {
+
+	}
 
 	@Override
 	public List<Order> getOrdersBycoursierId(int coursierId) {
 		return orderRepository.findByCoursierId(coursierId);
 	}
 
-
-
 	@Override
 	public long getNewOId() {
-		
 		return orderRepository.count() + 1;
 	}
-
-
 
 	@Override
 	public void insertOrder(Order order) {
 		orderRepository.insert(order);
 	}
 
-
-
 	@Override
 	public List<Order> getOrdersById(long id) {
 		return orderRepository.getOrdersById(id);
 	}
-
-
 
 	@Override
 	public void updateOrder(Order order) {
 		orderRepository.save(order);
 	}
 
-//	@Override
-//	public List<Order> getOrdersByCoursierName(String coursierName) {
-//		return orderRepository.findByCoursierName(coursierName);
-//	}
-	//}
+	// @Override
+	// public List<Order> getOrdersByCoursierName(String coursierName) {
+	// return orderRepository.findByCoursierName(coursierName);
+	// }
+	// }
 
 	@Override
 	public List<Order> getOrdersByRestaurantId(int restaurantId) {
@@ -87,8 +75,6 @@ public class OrderService implements IOrderService
 		return null;
 	}
 
-
-
 	@Override
 	public List<Order> getOrdersBycoursierId(String coursierId) {
 		// TODO Auto-generated method stub
@@ -96,4 +82,3 @@ public class OrderService implements IOrderService
 	}
 
 }
-

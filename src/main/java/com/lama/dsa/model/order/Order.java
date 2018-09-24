@@ -57,7 +57,7 @@ public class Order{
 		return clientId;
 	}
 
-	public void setClientId(String clientName) {
+	public void setClientId(int clientId) {
 		this.clientId = clientId;
 	}
 

@@ -1,0 +1,22 @@
+id | restaurantId | price | name | foodId1 | foodId2
+
+* 0 | 0 | 13 | Salad and dessert by Sun City Cafe | 0 | 25
+
+* 1 | 0 | 15 | Burger and dessert by Sun City Cafe | 1 | 25
+
+* 2 | 1 | 18 | Fritto Misto and dessert by Chez Max | 5 | 26
+
+* 3 | 1 | 11 | Onion Rings and dessert by Chez Max  | 7 | 26
+
+* 4 | 2 | 10 | Laab Tofu and dessert by Absolute Thai | 10 | 27
+
+* 5 | 2 | 10 | Tom Kah Phak and dessert by Absolute Thai | 11 | 27
+
+* 6 | 3 | 11 | California rainbow and dessert by Sushi for you | 17 | 28
+
+* 7 | 3 | 9 | Shrimp sushi and dessert by Sushi for you | 18 | 28
+
+* 8 | 4 | 10 | Vegetables pizza and dessert by Pizza FAFA | 22 | 29
+
+* 9 | 4 | 15 | Deluxe Pizza and dessert by Pizza FAFA | 24 | 29
+

@@ -34,7 +34,7 @@ id | restaurantId | price | name | description
 
 * 16 | 3 | 6.5 | Avocado maki by Sushi for you | Rice, seaweed and avocado
 
-* 17 | 3 | 7.1 | California raibow by Sushi for you| Not a real rainbow but almost
+* 17 | 3 | 7.1 | California rainbow by Sushi for you| Not a real rainbow but almost
 
 * 18 | 3 | 6.8 | Shrimp sushi by Sushi for you| Everything is in the name
 
@@ -49,3 +49,14 @@ id | restaurantId | price | name | description
 * 23 | 4 | 11 | Pepper beef by Pizza FAFA | Tomato sauce, mozzarella, beef slices, onions, mixed peppers, black olives, oregano.
 
 * 24 | 4 | 13 | Deluxe by Pizza FAFA | Try to imagine your dream pizza. It's this one, but better.
+
+* 25 | 0 | 7.5 | Awesome dessert by Sun City Cafe | It's an awesome dessert from Sun City Cafe
+
+* 26 | 1 | 6 | Incredible dessert by Chez Max | It's an incredible dessert. Really. It's incredible. 
+
+* 27 | 2 | 6 | Best dessert of your life by Absolute Thaï | Truth is : I search how to say the name of this dessert in Thai. 
+
+* 28 | 3 | 6.5 | Omg what is this dessert??? by Sushi for you | "A watashi no kamisama, kono dezato wa nanidesu ka???" is the japanese way to say this dessert name. You're welcome.
+
+* 29 | 4 | 5 | Dessert by Pizza FAFA | We do pizzas better than desserts.
+

@@ -2,23 +2,23 @@ package com.lama.dsa.model.restaurant;
 
 public class Restaurant {
 
-	private int id;
+	private long id;
 	private String name;
 	private String address;
 	private String description;
 	
-	public Restaurant(int id, float averagePrice, String name, String address, String description) {
+	public Restaurant(long id, float averagePrice, String name, String address, String description) {
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	

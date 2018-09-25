@@ -2,13 +2,13 @@ package com.lama.dsa.model.food;
 
 public class Food {
 
-	private int id;
-	private int restaurantId;
+	private long id;
+	private long restaurantId;
 	private float price;
 	private String name;
 	private String description;
 	
-	public Food(int id, int restaurantId, float price, String name, String description) {
+	public Food(long id, long restaurantId, float price, String name, String description) {
 		this.id = id;
 		this.restaurantId = restaurantId;
 		this.price = price;
@@ -16,19 +16,19 @@ public class Food {
 		this.description = description;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public int getRestaurantId() {
+	public long getRestaurantId() {
 		return restaurantId;
 	}
 
-	public void setRestaurantId(int restaurantId) {
+	public void setRestaurantId(long restaurantId) {
 		this.restaurantId = restaurantId;
 	}
 

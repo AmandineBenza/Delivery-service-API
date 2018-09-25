@@ -1,6 +1,7 @@
 
 package com.lama.dsa.service.order;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,6 @@ public class OrderService implements IOrderService {
 
 	public OrderService() {
 
-	}
-
-	@Override
-	public List<Order> getOrdersBycoursierId(int coursierId) {
-		return orderRepository.findByCoursierId(coursierId);
 	}
 
 	@Override
@@ -46,39 +42,52 @@ public class OrderService implements IOrderService {
 		orderRepository.save(order);
 	}
 
-	// @Override
-	// public List<Order> getOrdersByCoursierName(String coursierName) {
-	// return orderRepository.findByCoursierName(coursierName);
-	// }
-	// }
-
 	@Override
-	public List<Order> getOrdersByRestaurantId(int restaurantId) {
+	public List<Order> getOrdersByRestaurantId(long restaurantId) {
 		return orderRepository.findByRestaurantId(restaurantId);
 	}
 
 	@Override
-	public List<Order> getOrdersByCoursierId(int coursierId) {
+	public List<Order> getOrdersByCoursierId(long coursierId) {
 		return orderRepository.findByCoursierId(coursierId);
 	}
 
-	// TODO
+	/**
+	 * TODO ?
+	 * Get orders of restaurants inquired.
+	 */
 	@Override
-	public List<Order> getOrdersByRestaurantIds(List<Integer> restaurantsIds) {
-		return null;
+	public List<Order> getOrdersByRestaurantIds(List<Long> restaurantsIds) {
+		List<Order> orders = new ArrayList<>();
+		
+		for(long restaurantId : restaurantsIds){
+			for(Order order : orderRepository.findAll()){
+				if(order.getRestaurantId() == restaurantId){
+					orders.add(order);
+				}
+			}
+		}
+		
+		return orders;
 	}
 
-	// TODO
+	/**
+	 * TODO ?
+	 * Get orders of coursiers inquired.
+	 */
 	@Override
-	public List<Order> getOrdersByCoursierIds(List<Integer> coursiersIds) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Order> getOrdersByCoursierIds(List<Long> coursiersIds) {
+		List<Order> orders = new ArrayList<>();
+		
+		for(long coursierId : coursiersIds){
+			for(Order order : orderRepository.findAll()){
+				if(order.getCoursierId() == coursierId){
+					orders.add(order);
+				}
+			}
+		}
+		
+		return orders;
 	}
-
-	@Override
-	public List<Order> getOrdersBycoursierId(String coursierId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }

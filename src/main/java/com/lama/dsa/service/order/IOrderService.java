@@ -8,14 +8,13 @@ import com.lama.dsa.model.order.Order;
 public interface IOrderService {
 
 	public List<Order> getOrdersById(long id);
-	public List<Order> getOrdersBycoursierId(String coursierId);
-	public List<Order> getOrdersBycoursierId(int coursierId);
-	public List<Order> getOrdersByRestaurantId(int restaurantId);
-	public List<Order> getOrdersByCoursierId(int coursierId);
-	public List<Order> getOrdersByRestaurantIds(List<Integer> restaurantsIds);
-	public List<Order> getOrdersByCoursierIds(List<Integer> coursiersIds);
+	public List<Order> getOrdersByCoursierId(long coursierId);
+	public List<Order> getOrdersByRestaurantId(long restaurantId);
+	public List<Order> getOrdersByRestaurantIds(List<Long> restaurantsIds);
+	public List<Order> getOrdersByCoursierIds(List<Long> coursiersIds);
 	public long getNewOId();
 	public void insertOrder(Order order);
 	public void updateOrder(Order order);
+	
 }
 

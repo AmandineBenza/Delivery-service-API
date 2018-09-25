@@ -2,19 +2,19 @@ package com.lama.dsa.model.Client;
 
 public class Client {
 
-    private int id;
-    private int number;
+    private long id;
+    private int telNumber;
     private String name;
     private String address;
 
-    public Client(int id, String name, String address, int number) {
+    public Client(long id, String name, String address, int number) {
         this.id = id;
-        this.number = number;
+        this.telNumber = number;
         this.name = name;
         this.address = address;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -22,16 +22,15 @@ public class Client {
         return name;
     }
 
-
     public String getAddress() {
         return address;
     }
 
     public int getNumber() {
-        return number;
+        return telNumber;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -44,8 +43,7 @@ public class Client {
     }
 
     public void setNumber(int number) {
-        this.number = number;
+        this.telNumber = number;
     }
-
 
 }

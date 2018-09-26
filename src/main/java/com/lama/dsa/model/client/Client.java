@@ -1,4 +1,4 @@
-package com.lama.dsa.model.Client;
+package com.lama.dsa.model.client;
 
 public class Client {
 

@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lama.dsa.controller.response.ControllerResponseBuilder;
 import com.lama.dsa.model.food.Food;
 import com.lama.dsa.model.order.EnumOrderStatus;
 import com.lama.dsa.model.order.Order;
 import com.lama.dsa.service.order.IOrderService;
+import com.lama.dsa.utils.TBETOFComputer;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -140,6 +142,25 @@ public class Controller {
 		order.setStatus(EnumOrderStatus.DELIVERED);
 		orderService.updateOrder(order);
 		return new ResponseEntity(order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
+	}
+	
+	
+	/*
+	 * ------------- TESTS -------------
+	 */
+
+	/**
+	 * 
+	 * TODO TEST ORDERING
+	 * >>>> java.lang.NumberFormatException
+	 */
+	@RequestMapping(value = "TEST/FOOD/{name}", method = RequestMethod.POST)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully ordered food."),
+			@ApiResponse(code = 404, message = "Order failed.") })
+	public ResponseEntity testOrderFood(@PathVariable("name") String foodName) {
+		Order order = helper.computeFoodOrder(foodName, "avenuetruc", 0);
+		return ControllerResponseBuilder.getInstance().build(order, HttpStatus.OK,
+				TBETOFComputer.getInstance().compute("OSEF", "avenuetruc"));
 	}
 
 }

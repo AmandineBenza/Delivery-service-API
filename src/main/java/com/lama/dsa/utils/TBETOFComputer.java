@@ -9,7 +9,7 @@ public class TBETOFComputer implements ITBETOFComputer{
 	private final static ITBETOFComputer INSTANCE = new TBETOFComputer();
 	
 	@Value("dsa.tbetof.hardcoded_value")
-	private int hardcodedTBETOF;
+	private String hardcodedTBETOF;
 	
 	private TBETOFComputer() {
 	}
@@ -26,7 +26,7 @@ public class TBETOFComputer implements ITBETOFComputer{
 	 */
 	@Override
 	public int compute(String from, String to) {
-		return hardcodedTBETOF;
+		return Integer.parseInt(hardcodedTBETOF);
 	}
 
 }

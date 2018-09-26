@@ -5,20 +5,20 @@ import java.util.List;
 
 public class Order{
 
-	private int id;
-	private int restaurantId;
-	private int coursierId;
+	private long id;
+	private long restaurantId;
+	private long coursierId;
 	
-	private int clientId;
+	private long clientId;
 	
 	private Date creationTime;
 	private Date deliveryTime;
 	
 	private EnumOrderStatus status;
-	private List<Integer> foodIds;
+	private List<Long> foodIds;
 	
-	public Order(int id, int restaurantId, int coursierId, int clientId, Date creationTime,
-			Date deliveryTime, EnumOrderStatus status, List<Integer> foodIds) {
+	public Order(long id, long restaurantId, long coursierId, String address, long clientId, Date creationTime,
+			Date deliveryTime, EnumOrderStatus status, List<Long> foodIds) {
 		this.id = id;
 		this.restaurantId = restaurantId;
 		this.coursierId = coursierId;
@@ -29,15 +29,15 @@ public class Order{
 		this.foodIds = foodIds;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public int getRestaurantId() {
+	public long getRestaurantId() {
 		return restaurantId;
 	}
 
@@ -45,19 +45,19 @@ public class Order{
 		this.restaurantId = restaurantId;
 	}
 
-	public int getCoursierId() {
+	public long getCoursierId() {
 		return coursierId;
 	}
 
-	public void setCoursierId(int coursierId) {
+	public void setCoursierId(long coursierId) {
 		this.coursierId = coursierId;
 	}
 
-	public int getClientId() {
+	public long getClientId() {
 		return clientId;
 	}
 
-	public void setClientId(int clientId) {
+	public void setClientId(long clientId) {
 		this.clientId = clientId;
 	}
 
@@ -85,11 +85,11 @@ public class Order{
 		this.status = status;
 	}
 
-	public List<Integer> getFoodIds() {
+	public List<Long> getFoodIds() {
 		return foodIds;
 	}
 
-	public void setFoodIds(List<Integer> foodIds) {
+	public void setFoodIds(List<Long> foodIds) {
 		this.foodIds = foodIds;
 	}
 	

@@ -20,7 +20,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket productApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.lama.dsa.controller")).paths(regex("/DSA/GET/.*"))
+				.apis(RequestHandlerSelectors.basePackage("com.lama.dsa.controller")).paths(regex("/DSA/*"))
 				.build().apiInfo(metaData()).useDefaultResponseMessages(false) // to avoid default value for unhandled HTTP status code
 				.genericModelSubstitutes(Optional.class);
 	}

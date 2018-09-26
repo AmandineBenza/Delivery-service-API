@@ -1,19 +1,21 @@
 package com.lama.dsa.model.food;
 
-public class Food {
+import java.util.List;
 
+public class Menu {
+		
 	private long id;
 	private long restaurantId;
-	private float price;
-	private String name;
-	private String description;
+	private float price; 
+	private String name; 
+	private List<Long> foodIds;
 	
-	public Food(long id, long restaurantId, float price, String name, String description) {
+	public Menu(long id, long restaurantId, float price, String name, List<Long> foodIds) {
 		this.id = id;
 		this.restaurantId = restaurantId;
 		this.price = price;
 		this.name = name;
-		this.description = description;
+		this.foodIds = foodIds;
 	}
 
 	public long getId() {
@@ -48,12 +50,13 @@ public class Food {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
+	public List<Long> getFoodIds() {
+		return foodIds;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setFoodIds(List<Long> foodIds) {
+		this.foodIds = foodIds;
 	}
+	
 	
 }

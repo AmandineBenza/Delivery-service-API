@@ -1,4 +1,4 @@
-package com.lama.dsa.service;
+package com.lama.dsa.service.restaurant;
 
 import java.util.List;
 

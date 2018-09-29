@@ -1,7 +1,6 @@
+
 FROM openjdk:8-jdk-alpine
 
-
-LABEL maintainer="callicoder@gmail.com"
 
 # Add a volume pointing to /tmp
 VOLUME /tmp
@@ -15,6 +14,6 @@ ARG JAR_FILE=target/DeliveryServiceApi-0.0.1-SNAPSHOT.jar
 # Add the application's jar to the container
 ADD ${JAR_FILE} DeliveryServiceApi.jar
 
-
 # Run the jar file 
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/DeliveryServiceApi.jar"]
+

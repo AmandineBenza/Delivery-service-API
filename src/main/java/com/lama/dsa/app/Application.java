@@ -6,7 +6,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication(scanBasePackages = {"com.lama.dsa.repository",
 		"com.lama.dsa.controller", "com.lama.dsa.model",
-		"com.lama.dsa.service","com.lama.dsa.swagger","com.lama.dsa.databaseHelper","com.lama.dsa.utils"})
+		"com.lama.dsa.service","com.lama.dsa.swagger",
+		"com.lama.dsa.utils"})
 @EnableMongoRepositories(basePackages = {"com.lama.dsa.repository"})
 public class Application {
 	public static void main(String[] args) {

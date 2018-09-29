@@ -1,5 +1,6 @@
 package com.lama.dsa.controller;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lama.dsa.controller.response.ControllerResponseBuilder;
+import com.lama.dsa.databaseHelper.DataBaseHelper;
 import com.lama.dsa.model.food.Food;
+import com.lama.dsa.model.order.Coursier;
 import com.lama.dsa.model.order.EnumOrderStatus;
 import com.lama.dsa.model.order.Order;
 import com.lama.dsa.service.order.IOrderService;
@@ -144,23 +147,14 @@ public class Controller {
 		return new ResponseEntity(order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
 	}
 	
-	
-	/*
-	 * ------------- TESTS -------------
-	 */
-
-	/**
-	 * 
-	 * TODO TEST ORDERING
-	 * >>>> java.lang.NumberFormatException
-	 */
-	@RequestMapping(value = "TEST/FOOD/{name}", method = RequestMethod.POST)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully ordered food."),
-			@ApiResponse(code = 404, message = "Order failed.") })
-	public ResponseEntity testOrderFood(@PathVariable("name") String foodName) {
-		Order order = helper.computeFoodOrder(foodName, "avenuetruc", 0);
-		return ControllerResponseBuilder.getInstance().build(order, HttpStatus.OK,
-				TBETOFComputer.getInstance().compute("OSEF", "avenuetruc"));
+	@RequestMapping(value = "/UPDATE", method = RequestMethod.POST)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
+			@ApiResponse(code = 404, message = "No food was found") })
+	public ResponseEntity updateDataBase() {
+		DataBaseHelper.helper = helper;
+		DataBaseHelper.fillDataBase();
+		 
+		return new ResponseEntity(new Coursier(1,"GOOD"), HttpStatus.OK);
 	}
 	
 }

@@ -24,5 +24,10 @@ public class CoursierService implements ICoursierService {
 	public List<Coursier> getByName(String coursierName) {
 		return coursierRepository.findByName(coursierName);
 	}
+	
+	@Override
+	public Coursier insert(Coursier coursier) {
+		return  coursierRepository.insert(coursier);
+	}
 
 }

@@ -8,4 +8,6 @@ public interface IRestaurantService {
 
 	public List<Restaurant> getByName(String restaurantName);
 
+	void insertRestaurant(Restaurant order);
+
 }

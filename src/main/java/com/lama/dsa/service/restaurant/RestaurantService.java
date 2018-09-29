@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lama.dsa.model.order.Order;
 import com.lama.dsa.model.restaurant.Restaurant;
 import com.lama.dsa.repository.restaurant.IRestaurantRepository;
 
@@ -25,4 +26,8 @@ public class RestaurantService implements IRestaurantService {
 		return restaurantRepository.findByName(restaurantName);
 	}
 
+	@Override
+	public void insertRestaurant(Restaurant restaurant) {
+		restaurantRepository.insert(restaurant);
+	}
 }

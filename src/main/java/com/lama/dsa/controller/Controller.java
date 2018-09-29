@@ -1,6 +1,5 @@
 package com.lama.dsa.controller;
 
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -13,14 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lama.dsa.controller.response.ControllerResponseBuilder;
-import com.lama.dsa.databaseHelper.DataBaseHelper;
 import com.lama.dsa.model.food.Food;
-import com.lama.dsa.model.order.Coursier;
 import com.lama.dsa.model.order.EnumOrderStatus;
 import com.lama.dsa.model.order.Order;
 import com.lama.dsa.service.order.IOrderService;
-import com.lama.dsa.utils.TBETOFComputer;
+import com.lama.dsa.utils.DataBaseFiller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -151,10 +147,8 @@ public class Controller {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No food was found") })
 	public ResponseEntity updateDataBase() {
-		DataBaseHelper.helper = helper;
-		DataBaseHelper.fillDataBase();
-		 
-		return new ResponseEntity(new Coursier(1,"GOOD"), HttpStatus.OK);
+		DataBaseFiller.helper = helper;
+		DataBaseFiller.fillDataBase();
+		return new ResponseEntity("Database successfully updated.", HttpStatus.OK);
 	}
-	
 }

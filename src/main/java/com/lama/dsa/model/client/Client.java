@@ -1,4 +1,4 @@
-package com.lama.dsa.model.Client;
+package com.lama.dsa.model.client;
 
 public class Client {
 
@@ -34,7 +34,7 @@ public class Client {
         this.id = id;
     }
 
-    public void setLastName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

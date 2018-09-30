@@ -1,1 +1,1 @@
-mvn clean install
+docker build -t app .

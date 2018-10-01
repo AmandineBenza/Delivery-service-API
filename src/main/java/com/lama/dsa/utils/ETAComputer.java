@@ -4,17 +4,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TBETOFComputer implements ITBETOFComputer{
+public class ETAComputer implements IETAComputer{
 
-	private final static ITBETOFComputer INSTANCE = new TBETOFComputer();
+	private final static IETAComputer INSTANCE = new ETAComputer();
 	
-	@Value("dsa.tbetof.hardcoded_value")
+	@Value("dsa.eta.hardcoded_value")
 	private String hardcodedTBETOF;
 	
-	private TBETOFComputer() {
+	private ETAComputer() {
 	}
 	
-	public static ITBETOFComputer getInstance(){
+	public static IETAComputer getInstance(){
 		return INSTANCE;
 	}
 	

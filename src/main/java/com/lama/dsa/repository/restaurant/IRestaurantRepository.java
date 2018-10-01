@@ -7,6 +7,8 @@ import com.lama.dsa.model.restaurant.Restaurant;
 
 public interface IRestaurantRepository extends MongoRepository<Restaurant, String> {
 
+	public List<Restaurant> findById(long id);
+	
 	public List<Restaurant> findByName(String restaurantName);
 	
 }

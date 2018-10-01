@@ -17,6 +17,7 @@ import com.lama.dsa.service.food.IFoodService;
 import com.lama.dsa.service.menu.IMenuService;
 import com.lama.dsa.service.order.IOrderService;
 import com.lama.dsa.service.restaurant.IRestaurantService;
+import com.lama.dsa.utils.ETAComputer;
 
 
 @Component
@@ -53,15 +54,17 @@ public class ControllerHelper implements IControllerHelper{
 		return restaurantsIds;
 	}
 
-	// >> TODO <<
 	@Override
 	public Order computeFoodOrder(String foodName, String address, long clientId) {
 		Food orderedFood = foodService.getFoodByName(foodName).get(0);
 		List<Long> orderedFoods = new ArrayList<>();
 		orderedFoods.add(orderedFood.getId());
 		
+		String restaurantAddress = restaurantService.getById(orderedFood.getRestaurantId()).getAddress();
+		long eta = ETAComputer.getInstance().compute(restaurantAddress, address);
+		
 		Order order = new Order(orderService.getNewOId(), orderedFood.getRestaurantId(), -1,
-				address, clientId, new Date(), null, EnumOrderStatus.ONGOING, orderedFoods);
+				address, clientId, new Date(), null, EnumOrderStatus.ONGOING, orderedFoods, eta);
 		orderService.insertOrder(order);
 		
 		return order;

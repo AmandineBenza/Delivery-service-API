@@ -1,6 +1,6 @@
 
 FROM openjdk:8-jdk-alpine
-FROM mongo:latest
+
 
 # Add a volume pointing to /tmp
 VOLUME /tmp
@@ -15,5 +15,5 @@ ARG JAR_FILE=target/DeliveryServiceApi-0.0.1-SNAPSHOT.jar
 ADD ${JAR_FILE} DeliveryServiceApi.jar
 
 # Run the jar file 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/DeliveryServiceApi.jar"]
+ENTRYPOINT ["java","-jar","/DeliveryServiceApi.jar"]
 

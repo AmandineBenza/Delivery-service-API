@@ -113,7 +113,10 @@ MDR
 AVEC LES FAUTES CEST MIEUX
 CA FAIT PLUS HUMAIN
 ----------------------------
-
+ volumes:
+      - ./data:/data/db
+      
+      ,"-Djava.security.egd=file:/dev/./urandom"
 	:v1
 		_ localhost:8080/DSA/RESTAURANTS
 		_ localhost:8080/DSA/RESTAURANTS/KUMANO 

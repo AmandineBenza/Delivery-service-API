@@ -2,11 +2,21 @@
 FROM openjdk:8-jdk-alpine
 
 
+RUN mkdir -p src/main
+RUN ls
+COPY src/main src/main
+RUN ls src
+RUN ls src/main
+RUN ls src/main/resources
+RUN cat src/main/resources/application.properties
 # Add a volume pointing to /tmp
 VOLUME /tmp
 
+
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
+
+
 
 # The application's jar file
 ARG JAR_FILE=target/DeliveryServiceApi-0.0.1-SNAPSHOT.jar
@@ -15,5 +25,5 @@ ARG JAR_FILE=target/DeliveryServiceApi-0.0.1-SNAPSHOT.jar
 ADD ${JAR_FILE} DeliveryServiceApi.jar
 
 # Run the jar file 
-ENTRYPOINT ["java","-jar","/DeliveryServiceApi.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/DeliveryServiceApi.jar"]
 

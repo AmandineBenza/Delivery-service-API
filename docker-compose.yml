@@ -1,11 +1,17 @@
 version: "2"
 services:
-  app:
+  app: 
     container_name: app
     restart: always
     build: .
     ports:
       - "8080:8080"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/RSA_API_DB_01
+      - MONGODB_STATUS_HOST=mongo
+      - MONGODB_STATUS_PORT=28017
+    links:
+      - mongo
     depends_on:
       - mongo
   mongo:
@@ -14,3 +20,4 @@ services:
     restart: always
     ports:
       - "27017:27017"
+    command: ["mongod", "--noauth"]

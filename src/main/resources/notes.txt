@@ -117,6 +117,7 @@ CA FAIT PLUS HUMAIN
       - ./data:/data/db
       
       ,"-Djava.security.egd=file:/dev/./urandom"
+      http://192.168.99.100:2376/DSA
 	:v1
 		_ localhost:8080/DSA/RESTAURANTS
 		_ localhost:8080/DSA/RESTAURANTS/KUMANO 

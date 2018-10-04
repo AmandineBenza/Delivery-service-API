@@ -15,8 +15,8 @@ import com.lama.dsa.model.food.Food;
 import com.lama.dsa.model.food.Menu;
 import com.lama.dsa.model.order.Coursier;
 import com.lama.dsa.model.order.Order;
-import com.lama.dsa.model.restaurant.Restaurant;
 import com.lama.dsa.model.order.EnumOrderStatus;
+import com.lama.dsa.model.restaurant.Restaurant;;
 
 @SuppressWarnings("deprecation")
 public final class DataBaseFiller {
@@ -28,7 +28,7 @@ public final class DataBaseFiller {
 			"./src/main/resources/databaseScenarios/Restaurant_List.txt" };
 
 	public static IControllerHelper helper;
-
+	
 	public static void fillDataBase() {
 		DataBaseFiller.fillCoursiers();
 		DataBaseFiller.fillFood();
@@ -204,7 +204,7 @@ public final class DataBaseFiller {
 				order = new Order(Long.parseLong(attributes[0].trim().substring(1).trim()),
 						Long.parseLong(attributes[1].trim()), Long.parseLong(attributes[2].trim()), "",
 						Long.parseLong(attributes[3].trim()), dateStart, dateEnd,
-						Enum.valueOf(EnumOrderStatus.class, attributes[6].trim()), orderList);
+						Enum.valueOf(EnumOrderStatus.class, attributes[6].trim()), orderList, 1L);
 
 				try {
 					helper.getOrderService().insertOrder(order);
@@ -242,7 +242,7 @@ public final class DataBaseFiller {
 
 			while ((line = buff.readLine()) != null) {
 				attributes = line.split("\\|");
-				restaurant = new Restaurant(Long.parseLong(attributes[0].trim().substring(1).trim()), 0,
+				restaurant = new Restaurant(Long.parseLong(attributes[0].trim().substring(1).trim()), 0f,
 						attributes[1].trim(), attributes[2].trim(), attributes[3].trim());
 
 				try {

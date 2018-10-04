@@ -3,12 +3,14 @@ package com.lama.dsa.model.restaurant;
 public class Restaurant {
 
 	private long id;
+	private float averagePrice;
 	private String name;
 	private String address;
 	private String description;
 	
 	public Restaurant(long id, float averagePrice, String name, String address, String description) {
 		this.id = id;
+		this.averagePrice = averagePrice;
 		this.name = name;
 		this.address = address;
 		this.description = description;
@@ -44,6 +46,14 @@ public class Restaurant {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public float getAveragePrice() {
+		return averagePrice;
+	}
+
+	public void setAveragePrice(float averagePrice) {
+		this.averagePrice = averagePrice;
 	}
 	
 }

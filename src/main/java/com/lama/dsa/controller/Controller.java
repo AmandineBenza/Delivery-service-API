@@ -57,7 +57,6 @@ public class Controller {
 			@ApiResponse(code = 404, message = "No food was found.") })
 	public ResponseEntity getFoodByName(@PathVariable String name) {
 		List<Food> foods = helper.getFoodService().getFoodByName(name);
-		helper.computeFoodOrder(name, "", 0L);
 		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
 	}
 	

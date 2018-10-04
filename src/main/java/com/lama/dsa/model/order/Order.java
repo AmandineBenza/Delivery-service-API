@@ -10,6 +10,7 @@ public class Order{
 	private long coursierId;
 	
 	private long clientId;
+	private long eta; // estimated time of arrival
 	
 	private Date creationTime;
 	private Date deliveryTime;
@@ -18,7 +19,7 @@ public class Order{
 	private List<Long> foodIds;
 	
 	public Order(long id, long restaurantId, long coursierId, String address, long clientId, Date creationTime,
-			Date deliveryTime, EnumOrderStatus status, List<Long> foodIds) {
+			Date deliveryTime, EnumOrderStatus status, List<Long> foodIds, long eta) {
 		this.id = id;
 		this.restaurantId = restaurantId;
 		this.coursierId = coursierId;
@@ -27,6 +28,7 @@ public class Order{
 		this.deliveryTime = deliveryTime;
 		this.status = status;
 		this.foodIds = foodIds;
+		this.eta = eta;
 	}
 
 	public long getId() {
@@ -91,6 +93,18 @@ public class Order{
 
 	public void setFoodIds(List<Long> foodIds) {
 		this.foodIds = foodIds;
+	}
+
+	public long getEta() {
+		return eta;
+	}
+
+	public void setEta(long eta) {
+		this.eta = eta;
+	}
+
+	public void setRestaurantId(long restaurantId) {
+		this.restaurantId = restaurantId;
 	}
 	
 }

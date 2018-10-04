@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lama.dsa.model.food.Food;
 import com.lama.dsa.model.order.EnumOrderStatus;
 import com.lama.dsa.model.order.Order;
+import com.lama.dsa.model.order.OrderContainer;
 import com.lama.dsa.service.order.IOrderService;
 import com.lama.dsa.utils.DataBaseFiller;
 
@@ -98,9 +100,15 @@ public class Controller {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully ordered food."),
 			@ApiResponse(code = 404, message = "Order failed.") })
 	public ResponseEntity orderFood(@PathVariable("name") String foodName,
-			@RequestParam("clientid") long clientId, 
-			@RequestParam("address") String address) {
-		Order order = helper.computeFoodOrder(foodName, address, clientId);
+			@RequestParam("clientid") long clientId,
+			@RequestParam("address") String address,
+			@RequestBody(required = true) OrderContainer inputOrderContainer) {
+		
+		if(!helper.checkRestaurantIdIsUnique(inputOrderContainer)){
+			return new ResponseEntity(null, HttpStatus.FORBIDDEN);
+		}
+		
+		Order order = helper.computeFoodOrder(inputOrderContainer, address, clientId);
 		return new ResponseEntity(order, HttpStatus.OK);
 	}
 
@@ -146,7 +154,7 @@ public class Controller {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No food was found") })
 	public ResponseEntity updateDataBase() {
-		DataBaseFiller.helper = helper;
+		DataBaseFiller.setHelper(helper);
 		DataBaseFiller.fillDataBase();
 		return new ResponseEntity("Database successfully updated.", HttpStatus.OK);
 	}

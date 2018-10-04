@@ -122,3 +122,22 @@ CA FAIT PLUS HUMAIN
 		_ localhost:8080/DSA/RESTAURANTS/KUMANO 
 		_ localhost:8080/DSA/RESTAURANTS/KUMANO/ramen_soup
 			. (localhost:8080/DSA/RESTAURANTS/KUMANO?food=ramen_soop)
+			
+			
+			
+// 04 - 10 - 18			
+OrderContainer: contains plain objects because we need to avoid some processing.
+We put the complexity client-side.
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			

@@ -28,7 +28,7 @@ public final class DataBaseFiller {
 			"./src/main/resources/databaseScenarios/Restaurant_List.txt" };
 
 	public static IControllerHelper helper;
-
+	
 	public static void fillDataBase() {
 		DataBaseFiller.fillCoursiers();
 		DataBaseFiller.fillFood();

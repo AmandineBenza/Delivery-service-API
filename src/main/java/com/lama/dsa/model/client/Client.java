@@ -14,6 +14,10 @@ public class Client {
         this.address = address;
     }
 
+    public Client(String name) {
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }

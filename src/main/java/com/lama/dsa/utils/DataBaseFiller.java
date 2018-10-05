@@ -26,10 +26,14 @@ public final class DataBaseFiller {
 			"./src/main/resources/databaseScenarios/Food_List.txt",
 			"./src/main/resources/databaseScenarios/Menus_List.txt",
 			"./src/main/resources/databaseScenarios/Order_List.txt",
-			"./src/main/resources/databaseScenarios/Restaurant_List.txt" };
+	"./src/main/resources/databaseScenarios/Restaurant_List.txt" };
 
-	public static IControllerHelper helper;
-	
+	private static IControllerHelper helper;
+
+	public static void setHelper(IControllerHelper _helper){
+		helper = _helper;
+	}
+
 	public static void fillDataBase() {
 		DataBaseFiller.fillCoursiers();
 		DataBaseFiller.fillFood();
@@ -202,10 +206,18 @@ public final class DataBaseFiller {
 					dateEnd.setMinutes(Integer.parseInt(splitEndHour[1].trim()));
 				}
 
+				// new TODO ok
+				String[] menuIdsContent = line.replaceAll(".*\\|\\|", "").split("\\|");
+				List<Long> menuIds = new ArrayList<>();
+
+				for(int i = 0; i < menuIdsContent.length; ++i){
+					menuIds.add(Long.parseLong(menuIdsContent[i].trim()));
+				}
+
 				order = new Order(Long.parseLong(attributes[0].trim().substring(1).trim()),
 						Long.parseLong(attributes[1].trim()), Long.parseLong(attributes[2].trim()), "",
 						Long.parseLong(attributes[3].trim()), dateStart, dateEnd,
-						Enum.valueOf(EnumOrderStatus.class, attributes[6].trim()), orderList, 1L);
+						Enum.valueOf(EnumOrderStatus.class, attributes[6].trim()), orderList, menuIds, 1L);
 
 				try {
 					helper.getOrderService().insertOrder(order);
@@ -216,7 +228,6 @@ public final class DataBaseFiller {
 					break;
 				}
 			}
-
 			buff.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

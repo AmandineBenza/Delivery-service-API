@@ -16,10 +16,12 @@ public class Order{
 	private Date deliveryTime;
 	
 	private EnumOrderStatus status;
+	
 	private List<Long> foodIds;
+	private List<Long> menuIds;
 	
 	public Order(long id, long restaurantId, long coursierId, String address, long clientId, Date creationTime,
-			Date deliveryTime, EnumOrderStatus status, List<Long> foodIds, long eta) {
+			Date deliveryTime, EnumOrderStatus status, List<Long> foodIds, List<Long> menuIds, long eta) {
 		this.id = id;
 		this.restaurantId = restaurantId;
 		this.coursierId = coursierId;
@@ -28,6 +30,7 @@ public class Order{
 		this.deliveryTime = deliveryTime;
 		this.status = status;
 		this.foodIds = foodIds;
+		this.menuIds = menuIds;
 		this.eta = eta;
 	}
 
@@ -105,6 +108,14 @@ public class Order{
 
 	public void setRestaurantId(long restaurantId) {
 		this.restaurantId = restaurantId;
+	}
+
+	public List<Long> getMenuIds() {
+		return menuIds;
+	}
+
+	public void setMenuIds(List<Long> menuIds) {
+		this.menuIds = menuIds;
 	}
 	
 }

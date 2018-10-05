@@ -1,21 +1,21 @@
-id | name
+id | name | 
 
-* 0 | Pierre Rousseau
+* 0 | Pierre Rousseau | AVAILABLE
 
-* 1 | Philippe Legrand
+* 1 | Philippe Legrand | AVAILABLE
 
-* 2 | Catherine Garnier
+* 2 | Catherine Garnier | AVAILABLE
 
-* 3 | Thoma Faure
+* 3 | Thomas Faure | AVAILABLE
 
-* 4 | Nathalie Rousseau
+* 4 | Nathalie Rousseau | AVAILABLE
 
-* 5 | Alexis Boucher
+* 5 | Alexis Boucher | AVAILABLE
 
-* 6 | Emanuel Mallet
+* 6 | Emanuel Mallet | AVAILABLE
 
-* 7 | Wojtek Remy
+* 7 | Wojtek Remy | AVAILABLE
 
-* 8 | Caroline Perrot
+* 8 | Caroline Perrot | AVAILABLE
 
-* 9 | Maxime Marty
+* 9 | Maxime Marty | AVAILABLE

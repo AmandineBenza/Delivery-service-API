@@ -4,10 +4,12 @@ public class Coursier{
 	
 	private long id;
 	private String name;
+	private EnumCoursierStatus status;
 	
-	public Coursier(long id, String name) {
+	public Coursier(long id, String name,EnumCoursierStatus status) {
 		this.id = id;
 		this.name = name;
+		this.status = status;
 	}
 
 	public long getId() {
@@ -24,6 +26,14 @@ public class Coursier{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void setStatus(EnumCoursierStatus status){
+		this.status = status; 
+	}
+
+	public EnumCoursierStatus getStatus(){
+		return status; 
 	}
 	
 }

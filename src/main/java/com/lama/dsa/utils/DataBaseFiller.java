@@ -14,6 +14,7 @@ import com.lama.dsa.controller.IControllerHelper;
 import com.lama.dsa.model.food.Food;
 import com.lama.dsa.model.food.Menu;
 import com.lama.dsa.model.order.Coursier;
+import com.lama.dsa.model.order.EnumCoursierStatus;
 import com.lama.dsa.model.order.Order;
 import com.lama.dsa.model.order.EnumOrderStatus;
 import com.lama.dsa.model.restaurant.Restaurant;;
@@ -55,7 +56,7 @@ public final class DataBaseFiller {
 
 			while ((line = buff.readLine()) != null) {
 				attributes = line.split("\\|");
-				coursier = new Coursier(Long.parseLong(attributes[0].trim().substring(1).trim()), attributes[1].trim());
+				coursier = new Coursier(Long.parseLong(attributes[0].trim().substring(1).trim()), attributes[1].trim(),Enum.valueOf(EnumCoursierStatus.class,attributes[2].trim()));
 
 				try {
 					helper.getCoursierService().insert(coursier);

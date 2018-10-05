@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lama.dsa.model.food.Food;
+import com.lama.dsa.model.order.Coursier;
+import com.lama.dsa.model.order.EnumCoursierStatus;
 import com.lama.dsa.model.order.EnumOrderStatus;
 import com.lama.dsa.model.order.Order;
+import com.lama.dsa.service.coursier.ICoursierService;
 import com.lama.dsa.service.order.IOrderService;
 import com.lama.dsa.utils.DataBaseFiller;
 
@@ -121,6 +124,12 @@ public class Controller {
 			order.setStatus(EnumOrderStatus.TODELIVER);
 			orderService.updateOrder(order);
 		}
+		ICoursierService coursierService = helper.getCoursierService();
+		
+		//We assume that there will always be a coursier available for the MVP.
+		Coursier firstAvailableCoursier  = coursierService.getByStatus(EnumCoursierStatus.AVAILABLE).get(0);
+		firstAvailableCoursier.setStatus(EnumCoursierStatus.DELIVERING);
+		coursierService.update(firstAvailableCoursier);
 		
 		return new ResponseEntity(order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
 	}
@@ -132,13 +141,18 @@ public class Controller {
 	@RequestMapping(value = "COURSIER/{coursierName}/ORDERS/{orderId}", method = RequestMethod.POST)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No food was found") })
-	public ResponseEntity deliverFood(@PathVariable("coursierName") String foodName,
+	public ResponseEntity deliverFood(@PathVariable("coursierName") String coursierName,
 			@PathVariable("orderId") long orderId){
 		IOrderService orderService = helper.getOrderService();
+		ICoursierService coursierService = helper.getCoursierService();
 		Order order = orderService.getOrdersById(orderId).get(0);
 		order.setDeliveryTime(new Date());
 		order.setStatus(EnumOrderStatus.DELIVERED);
 		orderService.updateOrder(order);
+		
+		//We assume that name is also an id;
+		Coursier coursier = coursierService.getByName(coursierName).get(0);
+		coursier.setStatus(EnumCoursierStatus.AVAILABLE);
 		return new ResponseEntity(order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
 	}
 	

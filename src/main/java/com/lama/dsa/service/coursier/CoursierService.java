@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lama.dsa.model.order.Coursier;
+import com.lama.dsa.model.order.EnumCoursierStatus;
 import com.lama.dsa.repository.coursier.ICoursierRepository;
 
 @Transactional
@@ -29,5 +30,13 @@ public class CoursierService implements ICoursierService {
 	public Coursier insert(Coursier coursier) {
 		return  coursierRepository.insert(coursier);
 	}
-
+	
+	@Override
+	public List<Coursier> getByStatus(EnumCoursierStatus coursierStatus) {
+		return coursierRepository.findByStatus(coursierStatus);
+	}
+	@Override
+	public Coursier update(Coursier coursier) {
+		return coursierRepository.save(coursier);
+	}
 }

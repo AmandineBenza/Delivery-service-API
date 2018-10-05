@@ -95,7 +95,7 @@ public class Controller {
 	 */
 
 	/**
-	 * TODO
+	 * TODO 
 	 * 		(Client workflow)
 	 * 		Order a food given a food name, the client id, the delivery address.
 	 */
@@ -103,9 +103,10 @@ public class Controller {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully ordered food."),
 			@ApiResponse(code = 404, message = "Order failed.") })
 	public ResponseEntity orderFood(@PathVariable("name") String foodName,
+			//TODO remove client id 
 			@RequestParam("clientid") long clientId,
 			@RequestParam("address") String address,
-			@RequestBody(required = true) OrderContainer inputOrderContainer) {
+			@RequestBody(required = false) OrderContainer inputOrderContainer) {
 		
 		if(!helper.checkRestaurantIdIsUnique(inputOrderContainer)){
 			return new ResponseEntity(null, HttpStatus.FORBIDDEN);

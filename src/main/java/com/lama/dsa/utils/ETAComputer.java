@@ -6,15 +6,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class ETAComputer implements IETAComputer{
 
-	private final static IETAComputer INSTANCE = new ETAComputer();
+	static private final IETAComputer INSTANCE = new ETAComputer();
 	
 	@Value("dsa.eta.hardcoded_value")
-	private String hardcodedTBETOF;
+	public String hardcodedETA;
 	
 	private ETAComputer() {
 	}
 	
-	public static IETAComputer getInstance(){
+	static public IETAComputer getInstance(){
 		return INSTANCE;
 	}
 	
@@ -26,7 +26,7 @@ public class ETAComputer implements IETAComputer{
 	 */
 	@Override
 	public int compute(String from, String to) {
-		return Integer.parseInt(hardcodedTBETOF);
+		return Integer.parseInt(hardcodedETA);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.lama.dsa.model.order;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.lama.dsa.model.food.Food;
@@ -10,9 +12,13 @@ public class OrderContainer {
 	private List<Food> foods;
 	private List<Menu> menus;
 	
-	public OrderContainer(List<Food> foods, List<Menu> menus) {
-		this.foods = foods;
-		this.menus = menus;
+	public OrderContainer(Food[] foods, Menu[] menus) {
+		this.foods = new ArrayList<Food>(Arrays.asList(foods));
+		this.menus = new ArrayList<Menu>(Arrays.asList(menus));
+	}
+	
+	public OrderContainer(){
+		
 	}
 
 	public List<Food> getFoods() {

@@ -16,6 +16,9 @@ public class Food {
 		this.description = description;
 	}
 
+	public Food(){
+		
+	}
 	public long getId() {
 		return id;
 	}
@@ -55,5 +58,4 @@ public class Food {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
 }

@@ -2,10 +2,17 @@ package com.lama.dsa.controller;
 
 import com.lama.dsa.app.Application;
 import com.lama.dsa.model.food.Food;
+import com.lama.dsa.model.order.Order;
 import com.lama.dsa.service.food.FoodService;
 import com.lama.dsa.service.food.IFoodService;
+import com.lama.dsa.service.restaurant.RestaurantService;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.Console;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,23 +46,62 @@ import java.util.List;
 @SpringBootTest(classes = {FoodService.class})
 @ContextConfiguration(classes = {Application.class})
 @AutoConfigureMockMvc
-public class TestControllerNotWorking {
+public class TestControllerNotWorkingWorking {
 	
     @Autowired
     private MockMvc mockMvc;
     
-    @MockBean
+    @InjectMocks
     Controller controller;
-   
+    
+    @Mock
+    ControllerHelper ch;
+
+    @Mock
+    FoodService fs;
+    
+    @Mock
+    RestaurantService rs;
+    
+    @Before
+    public void setUp(){
+        MockitoAnnotations.initMocks(this);
+    }
 
 	@Test
-	public void testDatabaseNotEmpty() {
+	public void testGetAllFoodService() {
+		when(ch.getFoodService()).thenReturn(fs);
+		when(fs.getAll()).thenReturn(new ArrayList<Food>());
+		
+		//Check this out before deleting it show how InjectMocks Behave but TODO delete
+		System.out.println(controller);
+		System.out.println(ch);		
+		System.out.println(ch.getFoodService());
+		System.out.println(fs.getAll());
+		System.out.println(controller.getAllFoods());
+		//
+		
+		//assert that when no foods are retrieve a 404 not fond response is sent
+		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NOT_FOUND), controller.getAllFoods());;
+	
 		Food food = new Food(0, 0, 2.0f, "TestFood", "Food to test foods");
 		List<Food> foods = singletonList(food);
 		ResponseEntity<List<Food>> response = new ResponseEntity<List<Food>>(foods, HttpStatus.OK);
+		when(fs.getAll()).thenReturn(foods);
+		//assert that the good Foods are returned 
+		assertEquals(response, controller.getAllFoods());;
 		
-					
-
 	}
+	@Test
+	public void testFoodInformation() {
+		Food food = new Food(0, 0, 2.0f, "TestFood", "Food to test foods");
+		List<Food> foods = singletonList(food);
+		ResponseEntity<List<Food>> response = new ResponseEntity<List<Food>>(foods, HttpStatus.OK);
 
+		when(ch.getFoodService()).thenReturn(fs);
+		when(fs.getFoodByName("plat 1")).thenReturn(foods);
+		
+		assertEquals(response, controller.getFoodByName("plat 1"));
+		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NOT_FOUND), controller.getFoodByName("plat 2"));
+	}
 }

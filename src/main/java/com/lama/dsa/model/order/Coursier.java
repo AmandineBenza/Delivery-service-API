@@ -1,5 +1,8 @@
 package com.lama.dsa.model.order;
 
+/**
+ * Uberoo Coursier representation.
+ */
 public class Coursier{
 	
 	private long id;

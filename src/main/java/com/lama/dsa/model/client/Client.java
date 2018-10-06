@@ -1,5 +1,9 @@
 package com.lama.dsa.model.client;
 
+
+/**
+ * Uberoo Client representation.
+ */
 public class Client {
 
     private long id;

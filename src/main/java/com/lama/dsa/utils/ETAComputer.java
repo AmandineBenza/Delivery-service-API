@@ -18,12 +18,6 @@ public class ETAComputer implements IETAComputer{
 	}
 
 	/**
-	 * Computes the "Time Before Eating The Ordered Food".
-	 *
-	 * @param from start location
-	 * @param to end location
-	 */
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override

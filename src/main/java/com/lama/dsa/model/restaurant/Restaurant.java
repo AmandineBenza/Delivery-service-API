@@ -1,5 +1,9 @@
 package com.lama.dsa.model.restaurant;
 
+
+/**
+ * Uberoo Restaurant representation.
+ */
 public class Restaurant {
 
 	private long id;

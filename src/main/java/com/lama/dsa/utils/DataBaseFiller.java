@@ -20,9 +20,13 @@ import com.lama.dsa.model.order.Order;
 import com.lama.dsa.model.order.EnumOrderStatus;
 import com.lama.dsa.model.restaurant.Restaurant;;
 
+/**
+ *  Parse texts files in order to fill the database.  
+ */
 @SuppressWarnings("deprecation")
 public final class DataBaseFiller {
-
+	
+	
 	private final static String[] SOURCES = {
 			"./src/main/resources/databaseScenarios/Coursier_List.txt",
 			"./src/main/resources/databaseScenarios/Client_List.txt",
@@ -36,7 +40,7 @@ public final class DataBaseFiller {
 	public static void setHelper(IControllerHelper _helper){
 		helper = _helper;
 	}
-
+	
 	public static void fillDataBase() {
 		DataBaseFiller.fillCoursiers();
 		DataBaseFiller.fillClients();

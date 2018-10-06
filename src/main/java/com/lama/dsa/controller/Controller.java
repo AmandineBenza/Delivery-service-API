@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lama.dsa.model.ETAResponse;
+import com.lama.dsa.model.IResponseComponant;
 import com.lama.dsa.model.food.Food;
 import com.lama.dsa.model.food.Menu;
 import com.lama.dsa.model.order.Coursier;
@@ -45,7 +47,8 @@ public class Controller {
 	 * ------------- GET-------------
 	 */
 	
-	/**
+	/** 
+	 * TODO REGLER 
 	 * Get all the foods available in the database.
 	 */
 	@RequestMapping(value = "/FOOD", method = RequestMethod.GET, produces = "application/json")
@@ -53,8 +56,14 @@ public class Controller {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food catalogue"),
 			@ApiResponse(code = 404, message = "No food was found.") })
 	public ResponseEntity getAllFoods() {
+		
 		List<Food> foods = helper.getFoodService().getAll();
-		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
+		List<Menu> menus = helper.getMenuService().getAll();
+		ETAResponse response = new ETAResponse();
+		response.list.addAll(foods);
+		response.list.addAll(menus);
+		
+		return new ResponseEntity(response, (foods == null || foods.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
 	}
 
 	
@@ -67,21 +76,13 @@ public class Controller {
 	public ResponseEntity getFoodByName(@PathVariable String name, @RequestParam("address") String address) {
 		
 		List<Food> foods = helper.getFoodService().getFoodByName(name);
-
 		long restaurantId = foods.get(0).getRestaurantId();
 		String restaurantAddress = helper.getRestaurantService().getById(restaurantId).getAddress();
 		long eta = ETAComputer.getInstance().compute(restaurantAddress, address);
-		ArrayList<Long> orders = new ArrayList<>(); 
-		orders.add(foods.get(0).getId());
-		Order order = new Order(helper.getOrderService().getNewOId(),
-				restaurantId, -1l, address, 0, new Date(), null, EnumOrderStatus.ONGOING,
-				orders,
-				new ArrayList<>() ,
-				eta);
-		
+		ETAResponse response = new ETAResponse(eta);
+		response.list.addAll(foods);
 
-		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
-
+		return new ResponseEntity(response, (foods == null || foods.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
 	}
 	
 	/**
@@ -90,9 +91,14 @@ public class Controller {
 	@RequestMapping(value = "MENU/{name}", method = RequestMethod.GET, produces = "application/json")
 	@ApiOperation(value = "View menu given a menu name.", response = Menu.class, responseContainer = "List")	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No menu was found.") })
-	public ResponseEntity getMenuByName(@PathVariable String name) {
+	public ResponseEntity getMenuByName(@PathVariable String name, @RequestParam("address") String address) {
 		List<Menu> menus = helper.getMenuService().getMenuByName(name);
-		return new ResponseEntity(menus, (menus == null || menus.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
+		long restaurantId = menus.get(0).getRestaurantId();
+		String restaurantAddress = helper.getRestaurantService().getById(restaurantId).getAddress();
+		long eta = ETAComputer.getInstance().compute(restaurantAddress, address);
+		ETAResponse response = new ETAResponse(eta);
+		response.list.addAll(menus);
+		return new ResponseEntity(response, (menus == null || menus.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
 	}
 	
 	/**
@@ -123,7 +129,6 @@ public class Controller {
 	/*
 	 * ------------- POST -------------
 	 */
-
 	/**
 	 * Make an order given the client name.
 	 */
@@ -139,16 +144,14 @@ public class Controller {
 		}
 		
 		Order order = helper.computeFoodOrder(inputOrderContainer, address, clientName);
-		return new ResponseEntity(order, HttpStatus.OK);
+		ETAResponse response = new ETAResponse(order.getEta());
+		response.list.add(order);
+		return new ResponseEntity(response, HttpStatus.OK);
 	}
 
 	/**
-<<<<<<< HEAD
 	 *  	(Restaurant workflow)
 	 *  	Set an order ready to be delivered.
-=======
-	 *	Set an order ready to be delivered.
->>>>>>> branch 'master' of https://github.com/Damoy/Delivery-service-API.git
 	 */
 	@RequestMapping(value = "RESTAURANT/ORDERS/{order}", method = RequestMethod.POST)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully prepared food."),
@@ -188,8 +191,8 @@ public class Controller {
 		order.setDeliveryTime(new Date());
 		order.setStatus(EnumOrderStatus.DELIVERED);
 		orderService.updateOrder(order);
-		
-		//We assume that name is also an id;
+
+		//We assume that name is also an id
 		Coursier coursier = coursierService.getByName(coursierName).get(0);
 		coursier.setStatus(EnumCoursierStatus.AVAILABLE);
 		return new ResponseEntity(order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);

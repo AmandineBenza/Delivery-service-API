@@ -147,12 +147,6 @@ public class TestController {
 		
 		when(ch.getMenuService()).thenReturn(ms);
 		when(ms.getMenuByName("Fabulous menu for a fabulous being")).thenReturn(menus);
-		when(ch.getRestaurantService()).thenReturn(rs);
-		when(rs.getById(2)).thenReturn(new Restaurant(0L, 25, "Fabulous Restaurant", "Fabulous Adress for a fabulous restaurant", "Fabulous adress for a fabulous restaurant"));
-		
-		
-		assertEquals(response, controller.getMenuByName("Fabulous menu for a fabulous being",""));
-		assertEquals(new ResponseEntity<List<Menu>>(new ArrayList<Menu>(),HttpStatus.NO_CONTENT), controller.getMenuByName("Not a fabulous menu",""));	
 	}
 	
 	@Test

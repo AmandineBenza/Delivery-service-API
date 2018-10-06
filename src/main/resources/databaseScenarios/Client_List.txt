@@ -1,14 +1,14 @@
 id | name | address | number
 
-* 0 | Jean Humbert | 45 rue Abbé Joseph| 06901 Sophia Antipolis | 0596050007
+* 0 | Jean Humbert | 45 rue Abbé Joseph 06901 Sophia Antipolis | 0596050007
 
 * 1 | Marie Millet | 60 boulevard Gambetta 06903 Sophia Antipolis  | 0590327351
 
 * 2 | Michel Weber | 10 rue Montreal 06903 Sophia Antipolis  | 0810810767
 
-* 3 | Monique Klein | 5 boulevard Marie Sophia 06901 Antipolis  | 0626641822 
+* 3 | Monique Klein | 5 boulevard Marie Sophia 06901 Antipolis  | 0626641822
 
-* 4 | Claude Gomez | 10a rue Fabron 06902 Sophia Antipolis  | 0626541823 
+* 4 | Claude Gomez | 10a rue Fabron 06902 Sophia Antipolis  | 0626541823
 
 * 5 | André Barre | 21 rue Escaor 06901 Sophia Antipolis  | 0126641842
 

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lama.dsa.model.ETAResponse;
-import com.lama.dsa.model.IResponseComponant;
+import com.lama.dsa.model.IResponseComponent;
 import com.lama.dsa.model.food.Food;
 import com.lama.dsa.model.food.Menu;
 import com.lama.dsa.model.order.Coursier;
@@ -65,7 +65,6 @@ public class Controller {
 
 		return new ResponseEntity(response, (response.list == null || response.list.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
 	}
-
 
 	/**
 	 * Get food given a food name.

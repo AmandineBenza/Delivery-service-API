@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.lama.dsa.controller.IControllerHelper;
+import com.lama.dsa.model.client.Client;
 import com.lama.dsa.model.food.Food;
 import com.lama.dsa.model.food.Menu;
 import com.lama.dsa.model.order.Coursier;
@@ -22,11 +23,13 @@ import com.lama.dsa.model.restaurant.Restaurant;;
 @SuppressWarnings("deprecation")
 public final class DataBaseFiller {
 
-	private final static String[] SOURCES = { "./src/main/resources/databaseScenarios/Client_List.txt",
+	private final static String[] SOURCES = {
+			"./src/main/resources/databaseScenarios/Coursier_List.txt",
+			"./src/main/resources/databaseScenarios/Client_List.txt",
 			"./src/main/resources/databaseScenarios/Food_List.txt",
 			"./src/main/resources/databaseScenarios/Menus_List.txt",
 			"./src/main/resources/databaseScenarios/Order_List.txt",
-	"./src/main/resources/databaseScenarios/Restaurant_List.txt" };
+			"./src/main/resources/databaseScenarios/Restaurant_List.txt" };
 
 	private static IControllerHelper helper;
 
@@ -36,6 +39,7 @@ public final class DataBaseFiller {
 
 	public static void fillDataBase() {
 		DataBaseFiller.fillCoursiers();
+		DataBaseFiller.fillClients();
 		DataBaseFiller.fillFood();
 		DataBaseFiller.fillMenu();
 		DataBaseFiller.fillRestaurant();
@@ -79,12 +83,51 @@ public final class DataBaseFiller {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void fillClients() {
+		InputStream stream;
+
+		try {
+			// first file
+			stream = new FileInputStream(SOURCES[1]);
+			InputStreamReader reader = new InputStreamReader(stream);
+			BufferedReader buff = new BufferedReader(reader);
+
+			buff.readLine();
+			buff.readLine();
+
+			String line;
+			String[] attributes;
+			Client client;
+
+			while ((line = buff.readLine()) != null) {
+				attributes = line.split("\\|");
+				client = new Client(Long.parseLong(attributes[0].trim().substring(1).trim()), attributes[1].trim(),
+						attributes[2].trim(), Integer.parseInt(attributes[3].trim()));
+
+				try {
+					helper.getClientService().insertClient(client);
+				} catch (Exception ex) {
+				}
+
+				if (buff.readLine() == null) {
+					break;
+				}
+			}
+
+			buff.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void fillFood() {
 		InputStream stream;
 
 		try {
-			stream = new FileInputStream(SOURCES[1]);
+			stream = new FileInputStream(SOURCES[2]);
 			InputStreamReader reader = new InputStreamReader(stream);
 			BufferedReader buff = new BufferedReader(reader);
 
@@ -122,7 +165,7 @@ public final class DataBaseFiller {
 		InputStream stream;
 
 		try {
-			stream = new FileInputStream(SOURCES[2]);
+			stream = new FileInputStream(SOURCES[3]);
 			InputStreamReader reader = new InputStreamReader(stream);
 			BufferedReader buff = new BufferedReader(reader);
 
@@ -165,7 +208,7 @@ public final class DataBaseFiller {
 		InputStream stream;
 
 		try {
-			stream = new FileInputStream(SOURCES[3]);
+			stream = new FileInputStream(SOURCES[4]);
 			InputStreamReader reader = new InputStreamReader(stream);
 			BufferedReader buff = new BufferedReader(reader);
 
@@ -206,14 +249,25 @@ public final class DataBaseFiller {
 					dateEnd.setMinutes(Integer.parseInt(splitEndHour[1].trim()));
 				}
 
-				// new TODO ok
-				String[] menuIdsContent = line.replaceAll(".*\\|\\|", "").split("\\|");
+				String[] menuIdsContent = null;
 				List<Long> menuIds = new ArrayList<>();
-
-				for(int i = 0; i < menuIdsContent.length; ++i){
-					menuIds.add(Long.parseLong(menuIdsContent[i].trim()));
+				
+				try {
+					menuIdsContent = line.replaceAll(".*\\|\\|", "").split("\\|");
+				} catch(Exception e){
+					
 				}
-
+				
+				if(menuIdsContent != null){
+					for(int i = 0; i < menuIdsContent.length; ++i){
+						try {
+							menuIds.add(Long.parseLong(menuIdsContent[i].trim()));
+						} catch(Exception e){
+							continue;
+						}
+					}
+				}
+				
 				order = new Order(Long.parseLong(attributes[0].trim().substring(1).trim()),
 						Long.parseLong(attributes[1].trim()), Long.parseLong(attributes[2].trim()), "",
 						Long.parseLong(attributes[3].trim()), dateStart, dateEnd,
@@ -241,7 +295,7 @@ public final class DataBaseFiller {
 
 		try {
 			// first file
-			stream = new FileInputStream(SOURCES[4]);
+			stream = new FileInputStream(SOURCES[5]);
 			InputStreamReader reader = new InputStreamReader(stream);
 			BufferedReader buff = new BufferedReader(reader);
 

@@ -19,17 +19,26 @@ public class RestaurantService implements IRestaurantService {
 	public RestaurantService() {
 		
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Restaurant> getByName(String restaurantName) {
 		return restaurantRepository.findByName(restaurantName);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void insertRestaurant(Restaurant restaurant) {
 		restaurantRepository.insert(restaurant);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Restaurant getById(long id) {
 		return restaurantRepository.findById(id).get(0);

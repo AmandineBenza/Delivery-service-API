@@ -18,17 +18,26 @@ public class FoodService implements IFoodService{
 	
 	public FoodService(){
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Food> getAll(){
 		return foodRepository.findAll();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Food> getFoodByName(String name) {
 		return foodRepository.findByName(name);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Food insertFood(Food food) {
 		return foodRepository.insert(food);

@@ -54,12 +54,12 @@ public class Controller {
 			@ApiResponse(code = 404, message = "No food was found.") })
 	public ResponseEntity getAllFoods() {
 		List<Food> foods = helper.getFoodService().getAll();
-		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
 	}
 
 	
 	/**
-	 * Get food by given food name.
+	 * Get food given a food name.
 	 */
 	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.GET, produces = "application/json")
 	@ApiOperation(value = "View food given a food name.", response = Food.class, responseContainer = "List")	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
@@ -67,6 +67,7 @@ public class Controller {
 	public ResponseEntity getFoodByName(@PathVariable String name, @RequestParam("address") String address) {
 		
 		List<Food> foods = helper.getFoodService().getFoodByName(name);
+
 		long restaurantId = foods.get(0).getRestaurantId();
 		String restaurantAddress = helper.getRestaurantService().getById(restaurantId).getAddress();
 		long eta = ETAComputer.getInstance().compute(restaurantAddress, address);
@@ -78,28 +79,41 @@ public class Controller {
 				new ArrayList<>() ,
 				eta);
 		
-		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+
+		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
+
 	}
 	
 	/**
-	 * Get commands of a restaurant (get by name).
+	 * Get menu given a menu name.
+	 */
+	@RequestMapping(value = "MENU/{name}", method = RequestMethod.GET, produces = "application/json")
+	@ApiOperation(value = "View menu given a menu name.", response = Menu.class, responseContainer = "List")	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
+			@ApiResponse(code = 404, message = "No menu was found.") })
+	public ResponseEntity getMenuByName(@PathVariable String name) {
+		List<Menu> menus = helper.getMenuService().getMenuByName(name);
+		return new ResponseEntity(menus, (menus == null || menus.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
+	}
+	
+	/**
+	 * Get orders of a restaurant (get by name).
 	 */
 	@RequestMapping(value = "RESTAURANT/{restaurantName}/ORDERS", method = RequestMethod.GET, produces = "application/json")
 	@ApiOperation(value = "View a restaurant orders.", response = Order.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved orders."),
-			@ApiResponse(code = 404, message = "No order was found") })
+			@ApiResponse(code = 404, message = "No order was found.") })
 	public ResponseEntity getOrdersByRestaurantName(@PathVariable String restaurantName) {
 		List<Order> orders = helper.getOrderService().getOrdersByRestaurantIds(helper.getRestaurantIdsFromName(restaurantName));
-		return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+		return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
 	}
 	
 	/**
-	 * Get commands of a coursier (get by name).
+	 * Get orders of a coursier (get by name).
 	 */
 	@RequestMapping(value = "COURSIER/ORDERS/{coursierName}", method = RequestMethod.GET, produces = "application/json")
 	@ApiOperation(value = "View a coursier orders.", response = Order.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved orders."),
-			@ApiResponse(code = 404, message = "No order was found") })
+			@ApiResponse(code = 404, message = "No order was found.") })
 	public ResponseEntity getOrdersByCoursierName(@PathVariable String coursierName) {
 		List<Order> orders = helper.getOrderService().getOrdersByCoursierIds(helper.getCoursierIdsFromName(coursierName));
 		return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
@@ -111,16 +125,12 @@ public class Controller {
 	 */
 
 	/**
-	 * TODO 
-	 * 		(Client workflow)
-	 * 		Order a food given a food name, the client id, the delivery address.
+	 * Make an order given the client name.
 	 */
-	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.POST)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully ordered food."),
-			@ApiResponse(code = 404, message = "Order failed.") })
-	public ResponseEntity orderFood(@PathVariable("name") String foodName,
-			//TODO remove client id 
-			@RequestParam("clientid") long clientId,
+	@RequestMapping(value = "FOOD/{clientName}", method = RequestMethod.POST)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Order successfully created."),
+			@ApiResponse(code = 404, message = "Order creation failed.") })
+	public ResponseEntity orderFood(@PathVariable("clientName") String clientName,
 			@RequestParam("address") String address,
 			@RequestBody(required = false) OrderContainer inputOrderContainer) {
 		
@@ -128,13 +138,17 @@ public class Controller {
 			return new ResponseEntity(null, HttpStatus.FORBIDDEN);
 		}
 		
-		Order order = helper.computeFoodOrder(inputOrderContainer, address, clientId);
+		Order order = helper.computeFoodOrder(inputOrderContainer, address, clientName);
 		return new ResponseEntity(order, HttpStatus.OK);
 	}
 
 	/**
+<<<<<<< HEAD
 	 *  	(Restaurant workflow)
 	 *  	Set an order ready to be delivered.
+=======
+	 *	Set an order ready to be delivered.
+>>>>>>> branch 'master' of https://github.com/Damoy/Delivery-service-API.git
 	 */
 	@RequestMapping(value = "RESTAURANT/ORDERS/{order}", method = RequestMethod.POST)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully prepared food."),
@@ -148,6 +162,7 @@ public class Controller {
 			order.setStatus(EnumOrderStatus.TODELIVER);
 			orderService.updateOrder(order);
 		}
+		
 		ICoursierService coursierService = helper.getCoursierService();
 		
 		//We assume that there will always be a coursier available for the MVP.

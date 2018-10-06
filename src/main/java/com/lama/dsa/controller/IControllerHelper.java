@@ -17,7 +17,7 @@ public interface IControllerHelper {
 	
 	public List<Long> getRestaurantIdsFromName(String restaurantName);
 	
-	public Order computeFoodOrder(OrderContainer inputOrderContainer, String address, long clientId);
+	public Order computeFoodOrder(OrderContainer inputOrderContainer, String address, String clientName);
 	
 	public boolean checkRestaurantIdIsUnique(OrderContainer inputOrderContainer); 
 	

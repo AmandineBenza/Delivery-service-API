@@ -54,7 +54,6 @@ public class Controller {
 		List<Food> foods = helper.getFoodService().getAll();
 		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
 	}
-
 	
 	/**
 	 * Get food given a food name.

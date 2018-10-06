@@ -135,4 +135,9 @@ public class ControllerHelper implements IControllerHelper{
 		return coursierService;
 	}
 
+	@Override
+	public IClientService getClientService() {
+		return clientService;
+	}
+
 }

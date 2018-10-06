@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lama.dsa.model.order.Order;
 import com.lama.dsa.model.order.OrderContainer;
+import com.lama.dsa.service.client.IClientService;
 import com.lama.dsa.service.coursier.ICoursierService;
 import com.lama.dsa.service.food.IFoodService;
 import com.lama.dsa.service.menu.IMenuService;
@@ -30,5 +31,7 @@ public interface IControllerHelper {
 	public IRestaurantService getRestaurantService();
 	
 	public ICoursierService getCoursierService();
+	
+	public IClientService getClientService();
 	
 }

@@ -2,21 +2,18 @@ package com.lama.dsa.utils;
 
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component()
+@Component
 public class ETAComputer implements IETAComputer{
 
-	static private final IETAComputer INSTANCE = new ETAComputer();
-
+	private static final IETAComputer INSTANCE = new ETAComputer();
 
 	public int hardcodedETA;
 
-	private ETAComputer() {
-	}
+	private ETAComputer() {}
 
-	static public IETAComputer getInstance(){
+	public static IETAComputer getInstance(){
 		return INSTANCE;
 	}
 

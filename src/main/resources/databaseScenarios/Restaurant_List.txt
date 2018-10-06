@@ -1,4 +1,4 @@
-id | name | adress | description
+id | name | address | description
 
 * 0  | Sun City Cafe | 230 Route des Dolines, 06560 Valbonne | Americain dinner
 

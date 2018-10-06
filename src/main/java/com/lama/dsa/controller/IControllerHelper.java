@@ -31,7 +31,10 @@ public interface IControllerHelper {
 	public IRestaurantService getRestaurantService();
 	
 	public ICoursierService getCoursierService();
+<<<<<<< HEAD
 	
 	public IClientService getClientService();
 	
+=======
+>>>>>>> branch 'master' of https://github.com/Damoy/Delivery-service-API.git
 }

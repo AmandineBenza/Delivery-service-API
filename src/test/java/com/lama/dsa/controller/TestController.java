@@ -1,6 +1,7 @@
 package com.lama.dsa.controller;
 
 import com.lama.dsa.app.Application;
+import com.lama.dsa.model.ETAResponse;
 import com.lama.dsa.model.food.Food;
 import com.lama.dsa.model.food.Menu;
 import com.lama.dsa.model.order.Coursier;
@@ -95,22 +96,22 @@ public class TestController {
 	public void testGetAllFoodService() {
 		when(ch.getFoodService()).thenReturn(fs);
 		when(fs.getAll()).thenReturn(new ArrayList<Food>());
-		
-		//Check this out before deleting it show how InjectMocks Behave but TODO delete
-		System.out.println(controller);
-		System.out.println(ch);		
-		System.out.println(ch.getFoodService());
-		System.out.println(fs.getAll());
-		System.out.println(controller.getAllFoods());
-		//
-		
+		when(ch.getMenuService()).thenReturn(ms);
+		when(ms.getAll()).thenReturn(new ArrayList<Menu>());
+	    ETAResponse etaResponse = new ETAResponse();
 		//assert that when no foods are retrieve a 404 not fond response is sent
-		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NO_CONTENT), controller.getAllFoods());;
-	
+		assertEquals(new ResponseEntity<ETAResponse>(etaResponse , HttpStatus.NO_CONTENT), controller.getAllFoods());
+		
 		Food food = new Food(0, 0, 2.0f, "TestFood", "Food to test foods");
 		List<Food> foods = singletonList(food);
-		ResponseEntity<List<Food>> response = new ResponseEntity<List<Food>>(foods, HttpStatus.OK);
 		when(fs.getAll()).thenReturn(foods);
+		Menu menu = new Menu(0L, 2L, 14.5f, "Fabulous menu for a fabulous being", singletonList(1L));
+		List<Menu> menus = singletonList(menu);
+		when(ms.getAll()).thenReturn(menus);
+		ETAResponse eta = new ETAResponse();
+		eta.list.add(food);
+		eta.list.add(menu);
+		ResponseEntity<ETAResponse> response = new ResponseEntity<ETAResponse>(eta, HttpStatus.OK);
 		//assert that the good Foods are returned 
 		assertEquals(response, controller.getAllFoods());
 		
@@ -120,11 +121,16 @@ public class TestController {
 	public void testFoodInformation() {
 		Food food = new Food(0, 0, 2.0f, "TestFood", "Food to test foods");
 		List<Food> foods = singletonList(food);
-		ResponseEntity<List<Food>> response = new ResponseEntity<List<Food>>(foods, HttpStatus.OK);
-
+		ETAResponse eta = new ETAResponse();
+		eta.list.addAll(foods);
+		
 		when(ch.getFoodService()).thenReturn(fs);
 		when(fs.getFoodByName("plat 1")).thenReturn(foods);
+		when(ch.getRestaurantService()).thenReturn(rs);
+		when(rs.getById(0)).thenReturn( new Restaurant(0L, 25, "Fabulous Restaurant", "Fabulous Adress for a fabulous restaurant", "Fabulous adress for a fabulous restaurant"));
 		
+		ResponseEntity<ETAResponse> response = new ResponseEntity<ETAResponse>(eta, HttpStatus.OK);
+
 		assertEquals(response, controller.getFoodByName("plat 1","Address X"));
 		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NO_CONTENT), controller.getFoodByName("plat 2","Address X"));
 	}
@@ -132,15 +138,21 @@ public class TestController {
 	@Test
 	public void testMenuInformation() {
 
-		Menu menu = new Menu(1L, 2L, 14.5f, "Fabulous menu for a fabulous being", singletonList(1L));
+		Menu menu = new Menu(0L, 2L, 14.5f, "Fabulous menu for a fabulous being", singletonList(1L));
 		List<Menu> menus = singletonList(menu);
-		ResponseEntity<List<Menu>> response = new ResponseEntity<List<Menu>>(menus, HttpStatus.OK);
+		ETAResponse eta = new ETAResponse();
+		eta.list.addAll(menus);
+		
+		ResponseEntity<ETAResponse> response = new ResponseEntity<ETAResponse>(eta, HttpStatus.OK);
 		
 		when(ch.getMenuService()).thenReturn(ms);
 		when(ms.getMenuByName("Fabulous menu for a fabulous being")).thenReturn(menus);
-
-		assertEquals(response, controller.getMenuByName("Fabulous menu for a fabulous being"));
-		assertEquals(new ResponseEntity<List<Menu>>(new ArrayList<Menu>(),HttpStatus.NO_CONTENT), controller.getMenuByName("Not a fabulous menu"));	
+		when(ch.getRestaurantService()).thenReturn(rs);
+		when(rs.getById(2)).thenReturn(new Restaurant(0L, 25, "Fabulous Restaurant", "Fabulous Adress for a fabulous restaurant", "Fabulous adress for a fabulous restaurant"));
+		
+		
+		assertEquals(response, controller.getMenuByName("Fabulous menu for a fabulous being",""));
+		assertEquals(new ResponseEntity<List<Menu>>(new ArrayList<Menu>(),HttpStatus.NO_CONTENT), controller.getMenuByName("Not a fabulous menu",""));	
 	}
 	
 	@Test

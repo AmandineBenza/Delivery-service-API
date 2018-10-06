@@ -42,11 +42,11 @@ public class Controller {
 
 	@Autowired
 	private IControllerHelper helper;
-	
+
 	/*
 	 * ------------- GET-------------
 	 */
-	
+
 	/** 
 	 * TODO REGLER 
 	 * Get all the foods available in the database.
@@ -56,17 +56,17 @@ public class Controller {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food catalogue"),
 			@ApiResponse(code = 404, message = "No food was found.") })
 	public ResponseEntity getAllFoods() {
-		
+
 		List<Food> foods = helper.getFoodService().getAll();
 		List<Menu> menus = helper.getMenuService().getAll();
 		ETAResponse response = new ETAResponse();
 		response.list.addAll(foods);
 		response.list.addAll(menus);
-		
-		return new ResponseEntity(response, (foods == null || foods.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
+
+		return new ResponseEntity(response, (response.list == null || response.list.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
 	}
 
-	
+
 	/**
 	 * Get food given a food name.
 	 */
@@ -74,17 +74,20 @@ public class Controller {
 	@ApiOperation(value = "View food given a food name.", response = Food.class, responseContainer = "List")	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No food was found.") })
 	public ResponseEntity getFoodByName(@PathVariable String name, @RequestParam("address") String address) {
-		
-		List<Food> foods = helper.getFoodService().getFoodByName(name);
-		long restaurantId = foods.get(0).getRestaurantId();
-		String restaurantAddress = helper.getRestaurantService().getById(restaurantId).getAddress();
-		long eta = ETAComputer.getInstance().compute(restaurantAddress, address);
-		ETAResponse response = new ETAResponse(eta);
-		response.list.addAll(foods);
 
-		return new ResponseEntity(response, (foods == null || foods.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
+		List<Food> foods = helper.getFoodService().getFoodByName(name);
+		if(!foods.isEmpty() && foods != null ){
+			long restaurantId = foods.get(0).getRestaurantId();
+			String restaurantAddress = helper.getRestaurantService().getById(restaurantId).getAddress();
+			long eta = ETAComputer.getInstance().compute(restaurantAddress, address);
+			ETAResponse response = new ETAResponse(eta);
+			response.list.addAll(foods);
+			return new ResponseEntity(response,  HttpStatus.OK);
+		}
+		return new ResponseEntity(foods, HttpStatus.NO_CONTENT);
+
 	}
-	
+
 	/**
 	 * Get menu given a menu name.
 	 */
@@ -93,14 +96,16 @@ public class Controller {
 			@ApiResponse(code = 404, message = "No menu was found.") })
 	public ResponseEntity getMenuByName(@PathVariable String name, @RequestParam("address") String address) {
 		List<Menu> menus = helper.getMenuService().getMenuByName(name);
-		long restaurantId = menus.get(0).getRestaurantId();
-		String restaurantAddress = helper.getRestaurantService().getById(restaurantId).getAddress();
-		long eta = ETAComputer.getInstance().compute(restaurantAddress, address);
-		ETAResponse response = new ETAResponse(eta);
-		response.list.addAll(menus);
-		return new ResponseEntity(response, (menus == null || menus.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
-	}
-	
+		if(!menus.isEmpty() && menus != null ){
+			long restaurantId = menus.get(0).getRestaurantId();
+			String restaurantAddress = helper.getRestaurantService().getById(restaurantId).getAddress();
+			long eta = ETAComputer.getInstance().compute(restaurantAddress, address);
+			ETAResponse response = new ETAResponse(eta);
+			response.list.addAll(menus);
+			return new ResponseEntity(response,  HttpStatus.OK);
+		}
+		return new ResponseEntity(menus, HttpStatus.NO_CONTENT);	}
+
 	/**
 	 * Get orders of a restaurant (get by name).
 	 */
@@ -112,7 +117,7 @@ public class Controller {
 		List<Order> orders = helper.getOrderService().getOrdersByRestaurantIds(helper.getRestaurantIdsFromName(restaurantName));
 		return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
 	}
-	
+
 	/**
 	 * Get orders of a coursier (get by name).
 	 */
@@ -124,8 +129,8 @@ public class Controller {
 		List<Order> orders = helper.getOrderService().getOrdersByCoursierIds(helper.getCoursierIdsFromName(coursierName));
 		return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
 	}
-	
-	
+
+
 	/*
 	 * ------------- POST -------------
 	 */
@@ -138,11 +143,11 @@ public class Controller {
 	public ResponseEntity orderFood(@PathVariable("clientName") String clientName,
 			@RequestParam("address") String address,
 			@RequestBody(required = false) OrderContainer inputOrderContainer) {
-		
+
 		if(!helper.checkRestaurantIdIsUnique(inputOrderContainer)){
 			return new ResponseEntity(null, HttpStatus.FORBIDDEN);
 		}
-		
+
 		Order order = helper.computeFoodOrder(inputOrderContainer, address, clientName);
 		ETAResponse response = new ETAResponse(order.getEta());
 		response.list.add(order);
@@ -160,19 +165,19 @@ public class Controller {
 			@PathVariable("order") long orderId){
 		IOrderService orderService = helper.getOrderService();
 		Order order = orderService.getOrdersById(orderId).get(0);
-		
+
 		if(order.getStatus() == EnumOrderStatus.ONGOING){
 			order.setStatus(EnumOrderStatus.TODELIVER);
 			orderService.updateOrder(order);
 		}
-		
+
 		ICoursierService coursierService = helper.getCoursierService();
-		
+
 		//We assume that there will always be a coursier available for the MVP.
 		Coursier firstAvailableCoursier  = coursierService.getByStatus(EnumCoursierStatus.AVAILABLE).get(0);
 		firstAvailableCoursier.setStatus(EnumCoursierStatus.DELIVERING);
 		coursierService.update(firstAvailableCoursier);
-		
+
 		return new ResponseEntity(order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
 	}
 
@@ -197,7 +202,7 @@ public class Controller {
 		coursier.setStatus(EnumCoursierStatus.AVAILABLE);
 		return new ResponseEntity(order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/UPDATE", method = RequestMethod.POST)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No food was found") })

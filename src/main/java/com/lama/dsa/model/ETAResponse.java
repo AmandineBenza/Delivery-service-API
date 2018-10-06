@@ -3,6 +3,7 @@ package com.lama.dsa.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ETAResponse {
 	public long ETA;
 	public List<IResponseComponant> list;
@@ -13,5 +14,13 @@ public class ETAResponse {
 	}
 	public ETAResponse(){
 		this.list = new ArrayList<IResponseComponant>();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) return false;
+		if(obj instanceof ETAResponse )
+			return this.list.equals(((ETAResponse)obj).list);
+		 return false;
 	}
 }

@@ -2,9 +2,14 @@ package com.lama.dsa.controller;
 
 import com.lama.dsa.app.Application;
 import com.lama.dsa.model.food.Food;
+import com.lama.dsa.model.order.Coursier;
+import com.lama.dsa.model.order.EnumCoursierStatus;
+import com.lama.dsa.model.order.EnumOrderStatus;
 import com.lama.dsa.model.order.Order;
+import com.lama.dsa.model.restaurant.Restaurant;
 import com.lama.dsa.service.food.FoodService;
 import com.lama.dsa.service.food.IFoodService;
+import com.lama.dsa.service.order.OrderService;
 import com.lama.dsa.service.restaurant.RestaurantService;
 
 import org.junit.Before;
@@ -24,6 +29,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
@@ -39,6 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -46,7 +53,10 @@ import java.util.List;
 @SpringBootTest(classes = {FoodService.class})
 @ContextConfiguration(classes = {Application.class})
 @AutoConfigureMockMvc
-public class TestControllerNotWorkingWorking {
+public class TestController {
+	
+    @Autowired
+    private Controller testC;
 	
     @Autowired
     private MockMvc mockMvc;
@@ -63,9 +73,17 @@ public class TestControllerNotWorkingWorking {
     @Mock
     RestaurantService rs;
     
+    @Mock
+    OrderService os;
+    
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
+    }
+    
+    @Test
+    public void contexLoads() throws Exception {
+        assertThat(testC).isNotNull();
     }
 
 	@Test
@@ -89,9 +107,10 @@ public class TestControllerNotWorkingWorking {
 		ResponseEntity<List<Food>> response = new ResponseEntity<List<Food>>(foods, HttpStatus.OK);
 		when(fs.getAll()).thenReturn(foods);
 		//assert that the good Foods are returned 
-		assertEquals(response, controller.getAllFoods());;
+		assertEquals(response, controller.getAllFoods());
 		
 	}
+	
 	@Test
 	public void testFoodInformation() {
 		Food food = new Food(0, 0, 2.0f, "TestFood", "Food to test foods");
@@ -104,4 +123,60 @@ public class TestControllerNotWorkingWorking {
 		assertEquals(response, controller.getFoodByName("plat 1"));
 		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NOT_FOUND), controller.getFoodByName("plat 2"));
 	}
+	
+	@Test
+	public void testRestaurantOrders() {
+		
+		/*(long id, long restaurantId, long coursierId, String address, long clientId, Date creationTime,
+		Date deliveryTime, EnumOrderStatus status, List<Long> foodIds, List<Long> menuIds, long eta)*/	
+		
+		Order order1 = new Order(0L,1L,2L,"Adress of a fantastic customer", 0, new Date(), new Date(), 
+				EnumOrderStatus.ONGOING, singletonList(1L), singletonList(1L), 42L);
+		Order order2 = new Order(1L,1L,3L,"Adress of another fantastic customer", 1, new Date(), new Date(), 
+				EnumOrderStatus.TODELIVER, singletonList(2L), singletonList(2L), 24L);
+		Restaurant restaurant = new Restaurant(1L, 25, "Fabulous Restaurant", "Fabulous Adress for a fabulous restaurant", "Fabulous adress for a fabulous restaurant");
+		
+		List<Restaurant> restaurants = singletonList(restaurant);
+		List<Long> restaurantsIds = singletonList(restaurants.get(0).getId());
+		List<Order> orders = new ArrayList<>();
+		orders.add(order1);
+		orders.add(order2);
+		
+		ResponseEntity<List<Order>> response = new ResponseEntity<List<Order>>(orders, HttpStatus.OK);
+		
+		when(ch.getOrderService()).thenReturn(os);
+		when(ch.getRestaurantIdsFromName("Fabulous Restaurant")).thenReturn(restaurantsIds);
+		when(os.getOrdersByRestaurantIds(restaurantsIds)).thenReturn(orders);
+		
+		assertEquals(response, controller.getOrdersByRestaurantName("Fabulous Restaurant"));
+		assertEquals(new ResponseEntity<List<Order>>(new ArrayList<Order>(),HttpStatus.NOT_FOUND), controller.getOrdersByRestaurantName("Not so fabulous restaurant"));
+
+	}
+	
+	@Test
+	public void testCoursierOrders() {
+		
+		Order order1 = new Order(0L,1L,2L,"Adress of a fantastic customer", 0, new Date(), new Date(), 
+				EnumOrderStatus.ONGOING, singletonList(1L), singletonList(1L), 42L);
+		Order order2 = new Order(1L,1L,3L,"Adress of another fantastic customer", 1, new Date(), new Date(), 
+				EnumOrderStatus.TODELIVER, singletonList(2L), singletonList(2L), 24L);		
+		Coursier coursier = new Coursier(0L, "Jean-Eudes", EnumCoursierStatus.AVAILABLE);
+		
+		List<Coursier> coursiers = singletonList(coursier);
+		List<Long> coursiersIds = singletonList(coursiers.get(0).getId());	
+		List<Order> orders = new ArrayList<>();
+		orders.add(order1);
+		orders.add(order2);
+		
+		ResponseEntity<List<Order>> response = new ResponseEntity<List<Order>>(orders, HttpStatus.OK);
+		
+		when(ch.getOrderService()).thenReturn(os);
+		when(ch.getCoursierIdsFromName("Jean-Eudes")).thenReturn(coursiersIds);
+		when(os.getOrdersByCoursierIds(coursiersIds)).thenReturn(orders);
+		
+		assertEquals(response, controller.getOrdersByCoursierName("Jean-Eudes"));
+		assertEquals(new ResponseEntity<List<Order>>(new ArrayList<Order>(),HttpStatus.NOT_FOUND), controller.getOrdersByCoursierName("Someone who's not Jean-Eudes"));
+	
+	}
+	
 }

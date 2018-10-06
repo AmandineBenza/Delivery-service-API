@@ -1,12 +1,12 @@
 Id | restaurantId | coursierId | idClient | creationTime | deliveryTime | status | foodIds || menuIds
 
-* 0 | 2 | 9 | 0 | 27/09/18 21:36 | null | ONGOING | 24 || 1 | 2
+* 0 | 2 | 9 | 0 | 27/09/18 21:36 | null | ONGOING | 24 || 0 | 1
 
-* 1 | 3 | 1 | 9 | 26/08/18 21:08 | null | TODELIVER | 20 || 1
+* 1 | 3 | 1 | 9 | 26/08/18 21:08 | null | TODELIVER | 20 || 6
 
-* 2 | 4 | 4 | 1 | 20/06/18 21:36 | 20/06/18 22:04 | DELIVERED | 12
+* 2 | 4 | 4 | 1 | 20/06/18 21:36 | 20/06/18 22:04 | DELIVERED | 12 || 8
 
-* 3 | 4 | 6 | 5 | 01/05/18 12:02 | null | TODELIVER | 2
+* 3 | 4 | 6 | 5 | 01/05/18 12:02 | null | TODELIVER | 2 || 9
 
 * 4 | 2 | 2 | 6 | 11/07/18 20:18 | null | ONGOING | 3
 

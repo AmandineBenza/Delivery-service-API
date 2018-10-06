@@ -2,6 +2,7 @@ package com.lama.dsa.controller;
 
 import com.lama.dsa.app.Application;
 import com.lama.dsa.model.food.Food;
+import com.lama.dsa.model.food.Menu;
 import com.lama.dsa.model.order.Coursier;
 import com.lama.dsa.model.order.EnumCoursierStatus;
 import com.lama.dsa.model.order.EnumOrderStatus;
@@ -9,6 +10,7 @@ import com.lama.dsa.model.order.Order;
 import com.lama.dsa.model.restaurant.Restaurant;
 import com.lama.dsa.service.food.FoodService;
 import com.lama.dsa.service.food.IFoodService;
+import com.lama.dsa.service.menu.MenuService;
 import com.lama.dsa.service.order.OrderService;
 import com.lama.dsa.service.restaurant.RestaurantService;
 
@@ -76,6 +78,9 @@ public class TestController {
     @Mock
     OrderService os;
     
+    @Mock
+    MenuService ms;
+    
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
@@ -122,6 +127,20 @@ public class TestController {
 		
 		assertEquals(response, controller.getFoodByName("plat 1","Address X"));
 		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NO_CONTENT), controller.getFoodByName("plat 2","Address X"));
+	}
+	
+	@Test
+	public void testMenuInformation() {
+
+		Menu menu = new Menu(1L, 2L, 14.5f, "Fabulous menu for a fabulous being", singletonList(1L));
+		List<Menu> menus = singletonList(menu);
+		ResponseEntity<List<Menu>> response = new ResponseEntity<List<Menu>>(menus, HttpStatus.OK);
+		
+		when(ch.getMenuService()).thenReturn(ms);
+		when(ms.getMenuByName("Fabulous menu for a fabulous being")).thenReturn(menus);
+
+		assertEquals(response, controller.getMenuByName("Fabulous menu for a fabulous being"));
+		assertEquals(new ResponseEntity<List<Menu>>(new ArrayList<Menu>(),HttpStatus.NO_CONTENT), controller.getMenuByName("Not a fabulous menu"));	
 	}
 	
 	@Test

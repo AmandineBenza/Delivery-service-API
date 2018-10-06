@@ -95,14 +95,5 @@ public class TestControllerNotWorkingWorking {
 	
 	@Test
 	public void testFoodInformation() {
-		Food food = new Food(0, 0, 2.0f, "TestFood", "Food to test foods");
-		List<Food> foods = singletonList(food);
-		ResponseEntity<List<Food>> response = new ResponseEntity<List<Food>>(foods, HttpStatus.OK);
-
-		when(ch.getFoodService()).thenReturn(fs);
-		when(fs.getFoodByName("plat 1")).thenReturn(foods);
-		
-		assertEquals(response, controller.getFoodByName("plat 1"));
-		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NOT_FOUND), controller.getFoodByName("plat 2"));
-	}
+		}
 }

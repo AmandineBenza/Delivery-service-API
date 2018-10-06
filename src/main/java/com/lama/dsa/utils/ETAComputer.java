@@ -9,22 +9,25 @@ import org.springframework.stereotype.Component;
 public class ETAComputer implements IETAComputer{
 
 	static private final IETAComputer INSTANCE = new ETAComputer();
-	
-	
+
+
 	public int hardcodedETA;
-	
+
 	private ETAComputer() {
 	}
-	
+
 	static public IETAComputer getInstance(){
 		return INSTANCE;
 	}
-	
+
 	/**
 	 * Computes the "Time Before Eating The Ordered Food".
-	 * 
+	 *
 	 * @param from start location
 	 * @param to end location
+	 */
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int compute(String from, String to) {

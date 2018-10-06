@@ -30,5 +30,4 @@ public interface IControllerHelper {
 	public IRestaurantService getRestaurantService();
 	
 	public ICoursierService getCoursierService();
-	
 }

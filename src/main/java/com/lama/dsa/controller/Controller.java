@@ -1,7 +1,9 @@
 package com.lama.dsa.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lama.dsa.model.food.Food;
+import com.lama.dsa.model.food.Menu;
 import com.lama.dsa.model.order.Coursier;
 import com.lama.dsa.model.order.EnumCoursierStatus;
 import com.lama.dsa.model.order.EnumOrderStatus;
@@ -22,6 +25,7 @@ import com.lama.dsa.service.coursier.ICoursierService;
 import com.lama.dsa.model.order.OrderContainer;
 import com.lama.dsa.service.order.IOrderService;
 import com.lama.dsa.utils.DataBaseFiller;
+import com.lama.dsa.utils.ETAComputer;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +41,6 @@ public class Controller {
 	@Autowired
 	private IControllerHelper helper;
 	
-	
 	/*
 	 * ------------- GET-------------
 	 */
@@ -47,7 +50,7 @@ public class Controller {
 	 */
 	@RequestMapping(value = "/FOOD", method = RequestMethod.GET, produces = "application/json")
 	@ApiOperation(value = "View the whole food catalog.", response = Food.class, responseContainer = "List")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food catalogu"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food catalogue"),
 			@ApiResponse(code = 404, message = "No food was found.") })
 	public ResponseEntity getAllFoods() {
 		List<Food> foods = helper.getFoodService().getAll();
@@ -55,15 +58,26 @@ public class Controller {
 	}
 
 	
-	//TODO Eta and menu
 	/**
 	 * Get food by given food name.
 	 */
 	@RequestMapping(value = "FOOD/{name}", method = RequestMethod.GET, produces = "application/json")
 	@ApiOperation(value = "View food given a food name.", response = Food.class, responseContainer = "List")	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved food"),
 			@ApiResponse(code = 404, message = "No food was found.") })
-	public ResponseEntity getFoodByName(@PathVariable String name) {
+	public ResponseEntity getFoodByName(@PathVariable String name, @RequestParam("address") String address) {
+		
 		List<Food> foods = helper.getFoodService().getFoodByName(name);
+		long restaurantId = foods.get(0).getRestaurantId();
+		String restaurantAddress = helper.getRestaurantService().getById(restaurantId).getAddress();
+		long eta = ETAComputer.getInstance().compute(restaurantAddress, address);
+		ArrayList<Long> orders = new ArrayList<>(); 
+		orders.add(foods.get(0).getId());
+		Order order = new Order(helper.getOrderService().getNewOId(),
+				restaurantId, -1l, address, 0, new Date(), null, EnumOrderStatus.ONGOING,
+				orders,
+				new ArrayList<>() ,
+				eta);
+		
 		return new ResponseEntity(foods, (foods == null || foods.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
 	}
 	
@@ -82,7 +96,7 @@ public class Controller {
 	/**
 	 * Get commands of a coursier (get by name).
 	 */
-	@RequestMapping(value = "COURSIER/{coursierName}/ORDERS", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "COURSIER/ORDERS/{coursierName}", method = RequestMethod.GET, produces = "application/json")
 	@ApiOperation(value = "View a coursier orders.", response = Order.class, responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved orders."),
 			@ApiResponse(code = 404, message = "No order was found") })
@@ -119,11 +133,10 @@ public class Controller {
 	}
 
 	/**
-	 *  TODO
 	 *  	(Restaurant workflow)
 	 *  	Set an order ready to be delivered.
 	 */
-	@RequestMapping(value = "RESTAURANT/{restaurant}/ORDERS/{order}", method = RequestMethod.POST)
+	@RequestMapping(value = "RESTAURANT/ORDERS/{order}", method = RequestMethod.POST)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully prepared food."),
 			@ApiResponse(code = 404, message = "Order preparation failed.") })
 	public ResponseEntity sendToDeliver(@PathVariable("restaurant") String foodName,

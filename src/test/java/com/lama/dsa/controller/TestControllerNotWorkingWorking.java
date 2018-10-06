@@ -92,6 +92,7 @@ public class TestControllerNotWorkingWorking {
 		assertEquals(response, controller.getAllFoods());;
 		
 	}
+	
 	@Test
 	public void testFoodInformation() {
 		Food food = new Food(0, 0, 2.0f, "TestFood", "Food to test foods");

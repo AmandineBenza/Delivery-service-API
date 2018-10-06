@@ -3,9 +3,9 @@ package com.lama.dsa.model.order;
 import java.util.Date;
 import java.util.List;
 
-import com.lama.dsa.model.IResponseComponant;
+import com.lama.dsa.model.IResponseComponent;
 
-public class Order implements IResponseComponant {
+public class Order implements IResponseComponent {
 
 	private long id;
 	private long restaurantId;

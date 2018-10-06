@@ -1,8 +1,8 @@
 package com.lama.dsa.model.food;
 
-import com.lama.dsa.model.IResponseComponant;
+import com.lama.dsa.model.IResponseComponent;
 
-public class Food implements IResponseComponant {
+public class Food implements IResponseComponent {
 
 	private long id;
 	private long restaurantId;

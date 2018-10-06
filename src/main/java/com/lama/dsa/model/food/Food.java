@@ -19,6 +19,7 @@ public class Food {
 	public Food(){
 		
 	}
+	
 	public long getId() {
 		return id;
 	}

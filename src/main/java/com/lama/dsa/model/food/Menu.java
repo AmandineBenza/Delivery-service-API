@@ -17,9 +17,11 @@ public class Menu {
 		this.name = name;
 		this.foodIds = foodIds;
 	}
+	
 	public Menu(){
 		
 	}
+	
 	public long getId() {
 		return id;
 	}

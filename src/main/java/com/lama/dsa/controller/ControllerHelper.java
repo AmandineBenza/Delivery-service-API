@@ -89,7 +89,6 @@ public class ControllerHelper implements IControllerHelper{
 				inputOrderContainer.getFoods().stream().map(Food::getId).collect(Collectors.toList()),
 				inputOrderContainer.getMenus().stream().map(Menu::getId).collect(Collectors.toList()),
 				eta);
-		
 		return order;
 	}
 	

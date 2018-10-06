@@ -2,7 +2,9 @@ package com.lama.dsa.model.food;
 
 import java.util.List;
 
-public class Menu {
+import com.lama.dsa.model.IResponseComponant;
+
+public class Menu implements IResponseComponant {
 		
 	private long id;
 	private long restaurantId;

@@ -125,8 +125,8 @@ public class TestController {
 		when(ch.getFoodService()).thenReturn(fs);
 		when(fs.getFoodByName("plat 1")).thenReturn(foods);
 		
-		assertEquals(response, controller.getFoodByName("plat 1"));
-		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NO_CONTENT), controller.getFoodByName("plat 2"));
+		assertEquals(response, controller.getFoodByName("plat 1","Address X"));
+		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NO_CONTENT), controller.getFoodByName("plat 2","Address X"));
 	}
 	
 	@Test

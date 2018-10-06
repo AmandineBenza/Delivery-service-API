@@ -99,7 +99,7 @@ public class Controller {
 			@ApiResponse(code = 404, message = "No order was found.") })
 	public ResponseEntity getOrdersByCoursierName(@PathVariable String coursierName) {
 		List<Order> orders = helper.getOrderService().getOrdersByCoursierIds(helper.getCoursierIdsFromName(coursierName));
-		return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+		return new ResponseEntity(orders, (orders == null || orders.isEmpty()) ? HttpStatus.NO_CONTENT : HttpStatus.OK);
 	}
 	
 	

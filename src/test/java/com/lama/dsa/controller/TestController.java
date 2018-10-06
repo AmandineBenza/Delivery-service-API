@@ -100,7 +100,7 @@ public class TestController {
 		//
 		
 		//assert that when no foods are retrieve a 404 not fond response is sent
-		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NOT_FOUND), controller.getAllFoods());;
+		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NO_CONTENT), controller.getAllFoods());;
 	
 		Food food = new Food(0, 0, 2.0f, "TestFood", "Food to test foods");
 		List<Food> foods = singletonList(food);
@@ -121,7 +121,7 @@ public class TestController {
 		when(fs.getFoodByName("plat 1")).thenReturn(foods);
 		
 		assertEquals(response, controller.getFoodByName("plat 1"));
-		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NOT_FOUND), controller.getFoodByName("plat 2"));
+		assertEquals(new ResponseEntity<List<Food>>(new ArrayList<Food>(),HttpStatus.NO_CONTENT), controller.getFoodByName("plat 2"));
 	}
 	
 	@Test
@@ -149,7 +149,7 @@ public class TestController {
 		when(os.getOrdersByRestaurantIds(restaurantsIds)).thenReturn(orders);
 		
 		assertEquals(response, controller.getOrdersByRestaurantName("Fabulous Restaurant"));
-		assertEquals(new ResponseEntity<List<Order>>(new ArrayList<Order>(),HttpStatus.NOT_FOUND), controller.getOrdersByRestaurantName("Not so fabulous restaurant"));
+		assertEquals(new ResponseEntity<List<Order>>(new ArrayList<Order>(),HttpStatus.NO_CONTENT), controller.getOrdersByRestaurantName("Not so fabulous restaurant"));
 
 	}
 	
@@ -175,7 +175,7 @@ public class TestController {
 		when(os.getOrdersByCoursierIds(coursiersIds)).thenReturn(orders);
 		
 		assertEquals(response, controller.getOrdersByCoursierName("Jean-Eudes"));
-		assertEquals(new ResponseEntity<List<Order>>(new ArrayList<Order>(),HttpStatus.NOT_FOUND), controller.getOrdersByCoursierName("Someone who's not Jean-Eudes"));
+		assertEquals(new ResponseEntity<List<Order>>(new ArrayList<Order>(),HttpStatus.NO_CONTENT), controller.getOrdersByCoursierName("Someone who's not Jean-Eudes"));
 	
 	}
 	

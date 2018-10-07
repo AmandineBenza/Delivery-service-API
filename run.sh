@@ -13,7 +13,7 @@ echo 'He check for the delivery time givin his address in the requests'
 curl -X GET "http://$serverIp/DSA/FOOD/Dessert%20by%20Pizza%20FAFA?address=11avtruc"
 
 echo 'He is now ordering his food'
-curl -i -H "Accept: application/json" -H "Content-type: application/json" -X POST -d "$joesResponse" "http://$serverIp/DSA/FOOD/Jean%20Hubert?address=x"
+curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d "$joesResponse" "$serverIp/DSA/FOOD/Jean%20Humbert?address=x"
 
 echo 'The restaurant consult his order'
 curl "$serverIp/DSA/RESTAURANT/Sun%20City%20Cafe/ORDERS"

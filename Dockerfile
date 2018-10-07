@@ -2,12 +2,8 @@ FROM openjdk:8-jdk-alpine
 
 
 RUN mkdir -p src/main
-RUN ls
 COPY src/main src/main
-RUN ls src
-RUN ls src/main
-RUN ls src/main/resources
-RUN cat src/main/resources/application.properties
+
 # Add a volume pointing to /tmp
 VOLUME /tmp
 

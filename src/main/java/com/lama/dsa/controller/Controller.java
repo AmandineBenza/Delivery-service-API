@@ -84,7 +84,6 @@ public class Controller {
 			return new ResponseEntity(response,  HttpStatus.OK);
 		}
 		return new ResponseEntity(foods, HttpStatus.NO_CONTENT);
-
 	}
 
 	/**
@@ -150,6 +149,7 @@ public class Controller {
 		Order order = helper.computeFoodOrder(inputOrderContainer, address, clientName);
 		ETAResponse response = new ETAResponse(order.getEta());
 		response.list.add(order);
+		helper.getOrderService().insertOrder(order);
 		return new ResponseEntity(response, HttpStatus.OK);
 	}
 
@@ -160,7 +160,7 @@ public class Controller {
 	@RequestMapping(value = "RESTAURANT/ORDERS/{order}", method = RequestMethod.POST)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully prepared food."),
 			@ApiResponse(code = 404, message = "Order preparation failed.") })
-	public ResponseEntity sendToDeliver(@PathVariable("restaurant") String foodName,
+	public ResponseEntity sendToDeliver(
 			@PathVariable("order") long orderId){
 		IOrderService orderService = helper.getOrderService();
 		Order order = orderService.getOrdersById(orderId).get(0);
@@ -168,16 +168,14 @@ public class Controller {
 		if(order.getStatus() == EnumOrderStatus.ONGOING){
 			order.setStatus(EnumOrderStatus.TODELIVER);
 			orderService.updateOrder(order);
+			ICoursierService coursierService = helper.getCoursierService();
+			//We assume that there will always be a coursier available for the MVP.
+			Coursier firstAvailableCoursier  = coursierService.getByStatus(EnumCoursierStatus.AVAILABLE).get(0);
+			firstAvailableCoursier.setStatus(EnumCoursierStatus.DELIVERING);
+			coursierService.update(firstAvailableCoursier);
+			return new ResponseEntity(order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
 		}
-
-		ICoursierService coursierService = helper.getCoursierService();
-
-		//We assume that there will always be a coursier available for the MVP.
-		Coursier firstAvailableCoursier  = coursierService.getByStatus(EnumCoursierStatus.AVAILABLE).get(0);
-		firstAvailableCoursier.setStatus(EnumCoursierStatus.DELIVERING);
-		coursierService.update(firstAvailableCoursier);
-
-		return new ResponseEntity(order = orderService.getOrdersById(orderId).get(0), HttpStatus.OK);
+		return new ResponseEntity(order = orderService.getOrdersById(orderId).get(0), HttpStatus.BAD_REQUEST);
 	}
 
 	/**

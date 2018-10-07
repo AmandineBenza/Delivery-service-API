@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.lama.dsa.model.IResponseComponent;
 
+/**
+ * Uberoo Order representation.
+ */
 public class Order implements IResponseComponent {
 
 	private long id;

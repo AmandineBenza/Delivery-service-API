@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.lama.dsa.model.IResponseComponent;
 
+/**
+ * Uberoo Menu representation.
+ */
 public class Menu implements IResponseComponent {
 		
 	private long id;

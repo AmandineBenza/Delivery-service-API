@@ -2,6 +2,9 @@ package com.lama.dsa.model.food;
 
 import com.lama.dsa.model.IResponseComponent;
 
+/**
+ * Uberoo Food representation.
+ */
 public class Food implements IResponseComponent {
 
 	private long id;

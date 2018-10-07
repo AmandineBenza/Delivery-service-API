@@ -7,6 +7,10 @@ import java.util.List;
 import com.lama.dsa.model.food.Food;
 import com.lama.dsa.model.food.Menu;
 
+/**
+ * Object use to concatenate the food and the menus chose by the client who want to eat.
+ * Cart representation. 
+ */
 public class OrderContainer {
 
 	private List<Food> foods;

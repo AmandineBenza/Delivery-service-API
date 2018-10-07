@@ -48,7 +48,7 @@ public class ControllerHelper implements IControllerHelper{
 	private IClientService clientService;
 
 	@Override
-	public ETAResponse getEtaAllFoods() {
+	public ETAResponse getWholeCatalogue() {
 		List<Food> foods = foodService.getAll();
 		List<Menu> menus = menuService.getAll();
 		ETAResponse response = new ETAResponse();
@@ -220,6 +220,12 @@ public class ControllerHelper implements IControllerHelper{
 	@Override
 	public IClientService getClientService() {
 		return clientService;
+	}
+
+	@Override
+	public ETAResponse getEtaAllMenus() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -12,15 +12,10 @@ import com.lama.dsa.model.order.Order;
 import com.lama.dsa.model.order.OrderContainer;
 import com.lama.dsa.model.restaurant.Restaurant;
 import com.lama.dsa.service.coursier.CoursierService;
-import com.lama.dsa.service.coursier.ICoursierService;
 import com.lama.dsa.service.food.FoodService;
 import com.lama.dsa.service.menu.MenuService;
-import com.lama.dsa.service.order.IOrderService;
 import com.lama.dsa.service.order.OrderService;
 import com.lama.dsa.service.restaurant.RestaurantService;
-
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,17 +30,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -59,8 +47,6 @@ public class TestController {
 
 	@Autowired
 	private Controller testC;
-
-
 
 	@InjectMocks
 	Controller controller;
@@ -101,10 +87,10 @@ public class TestController {
 		when(ms.getAll()).thenReturn(new ArrayList<Menu>());
 		
 		ETAResponse etaResponse = new ETAResponse();
-	    when(ch.getEtaAllFoods()).thenReturn(etaResponse);
+	    when(ch.getWholeCatalogue()).thenReturn(etaResponse);
 	    
 		//assert that when no foods are retrieve a 404 not fond response is sent
-		assertEquals(new ResponseEntity<ETAResponse>(etaResponse , HttpStatus.NO_CONTENT), controller.getAllFoods());
+		assertEquals(new ResponseEntity<ETAResponse>(etaResponse , HttpStatus.NO_CONTENT), controller.getWholeCatalogue());
 
 		Food food = new Food(0, 0, 2.0f, "TestFood", "Food to test foods");
 		List<Food> foods = singletonList(food);
@@ -119,10 +105,9 @@ public class TestController {
 		eta.add(menu);
 		
 		ResponseEntity<ETAResponse> response = new ResponseEntity<ETAResponse>(eta, HttpStatus.OK);
-		when(ch.getEtaAllFoods()).thenReturn(eta);
+		when(ch.getWholeCatalogue()).thenReturn(eta);
 		//assert that the good Foods are returned 
-		assertEquals(response, controller.getAllFoods());
-
+		assertEquals(response, controller.getWholeCatalogue());
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -133,16 +118,10 @@ public class TestController {
 		ETAResponse eta = new ETAResponse();
 		eta.add(foods);
 		
-//		when(ch.getFoodService()).thenReturn(fs);
-//		when(fs.getFoodByName("plat 1")).thenReturn(foods);
-//		when(ch.getRestaurantService()).thenReturn(rs);
-//		when(rs.getById(0)).thenReturn( new Restaurant(0L, 25, "Fabulous Restaurant", "Fabulous Adress for a fabulous restaurant", "Fabulous adress for a fabulous restaurant"));
-//		
+
 		ResponseEntity<ETAResponse> response = new ResponseEntity<ETAResponse>(eta, HttpStatus.OK);
 
 		when(ch.getEtaFoodByName("plat 1","Address X")).thenReturn(eta);
-//		when(ch.getEtaFoodByName("plat 2","Address X")).thenReturn(new ETAResponse());
-//		
 		assertEquals(response, controller.getFoodByName("plat 1","Address X"));
 		assertEquals(new ResponseEntity(new ArrayList<IResponseComponent>(), HttpStatus.NO_CONTENT),
 				controller.getFoodByName("plat 2","Address X"));
@@ -253,7 +232,6 @@ public class TestController {
 
 	@Test
 	public void testDeliverFood() {
-
 		Order order1 = new Order(1L,1L,2L,"Adress of a fantastic customer2", 0, new Date(), new Date(), 
 				EnumOrderStatus.TODELIVER, singletonList(0L), singletonList(0L), 42L);
 		Coursier coursier = new Coursier(0,"A man",EnumCoursierStatus.DELIVERING);
@@ -264,7 +242,6 @@ public class TestController {
 		when(ch.validateOrderDelivery("A man", 1l)).thenReturn(order1);
 		ResponseEntity<Order> response = new ResponseEntity<Order>(order1, HttpStatus.OK);
 		assertEquals(response,controller.deliverFood("A man",1L));
-		
 		
 	}
 }

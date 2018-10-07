@@ -47,6 +47,9 @@ public class ControllerHelper implements IControllerHelper{
 	@Autowired
 	private IClientService clientService;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ETAResponse getWholeCatalogue() {
 		List<Food> foods = foodService.getAll();
@@ -57,6 +60,9 @@ public class ControllerHelper implements IControllerHelper{
 		return response;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ETAResponse getEtaFoodByName(String foodName, String deliveryAddress) {
 		List<Food> foods = foodService.getFoodByName(foodName);
@@ -74,6 +80,9 @@ public class ControllerHelper implements IControllerHelper{
 		return response;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ETAResponse getEtaMenuByName(String menuName, String deliveryAddress) {
 		List<Menu> menus = menuService.getMenuByName(menuName);
@@ -91,6 +100,9 @@ public class ControllerHelper implements IControllerHelper{
 		return response;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Long> getCoursierIdsFromName(String coursierName){
 		List<Coursier> coursiers = coursierService.getByName(coursierName);
@@ -99,6 +111,9 @@ public class ControllerHelper implements IControllerHelper{
 		return coursiersIds;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Long> getRestaurantIdsFromName(String restaurantName){
 		List<Restaurant> restaurants = restaurantService.getByName(restaurantName);
@@ -108,6 +123,7 @@ public class ControllerHelper implements IControllerHelper{
 	}
 
 	/**
+	 * {@inheritDoc}
 	 * Assumes there is only one restaurant for all menus and foods.
 	 */
 	@Override
@@ -141,6 +157,9 @@ public class ControllerHelper implements IControllerHelper{
 		return response;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean checkRestaurantIdIsUnique(OrderContainer inputOrderContainer) {
 		List<Long> restaurantIds = new ArrayList<>(inputOrderContainer.getFoods().size()
@@ -158,6 +177,9 @@ public class ControllerHelper implements IControllerHelper{
 		return true;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Order setOrderReadyForDelivery(long orderId) {
 		Order order = orderService.getOrdersById(orderId).get(0);
@@ -176,6 +198,9 @@ public class ControllerHelper implements IControllerHelper{
 		return order;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Order validateOrderDelivery(String coursierName, long orderId) {
 		Order order = orderService.getOrdersById(orderId).get(0);
@@ -191,40 +216,52 @@ public class ControllerHelper implements IControllerHelper{
 		return order;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public IFoodService getFoodService() {
 		return foodService;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public IOrderService getOrderService() {
 		return orderService;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public IMenuService getMenuService() {
 		return menuService;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public IRestaurantService getRestaurantService() {
 		return restaurantService;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ICoursierService getCoursierService() {
 		return coursierService;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public IClientService getClientService() {
 		return clientService;
-	}
-
-	@Override
-	public ETAResponse getEtaAllMenus() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

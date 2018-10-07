@@ -41,7 +41,8 @@ public final class DataBaseFiller {
 		helper = _helper;
 	}
 	
-	public static void fillDataBase() {
+	public static void fillDataBase(IControllerHelper helper) {
+		setHelper(helper);
 		DataBaseFiller.fillCoursiers();
 		DataBaseFiller.fillClients();
 		DataBaseFiller.fillFood();

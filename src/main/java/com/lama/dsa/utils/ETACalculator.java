@@ -5,15 +5,15 @@ import java.util.Random;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ETAComputer implements IETAComputer{
+public class ETACalculator implements IETACalculator{
 
-	private static final IETAComputer INSTANCE = new ETAComputer();
+	private static final IETACalculator INSTANCE = new ETACalculator();
 
 	public int hardcodedETA;
 
-	private ETAComputer() {}
+	private ETACalculator() {}
 
-	public static IETAComputer getInstance(){
+	public static IETACalculator getInstance(){
 		return INSTANCE;
 	}
 

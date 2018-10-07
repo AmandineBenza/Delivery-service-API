@@ -2,6 +2,7 @@ package com.lama.dsa.controller;
 
 import java.util.List;
 
+import com.lama.dsa.model.ETAResponse;
 import com.lama.dsa.model.order.Order;
 import com.lama.dsa.model.order.OrderContainer;
 import com.lama.dsa.service.client.IClientService;
@@ -18,7 +19,7 @@ public interface IControllerHelper {
 	
 	public List<Long> getRestaurantIdsFromName(String restaurantName);
 	
-	public Order computeFoodOrder(OrderContainer inputOrderContainer, String address, String clientName);
+	public ETAResponse computeFoodOrder(OrderContainer inputOrderContainer, String address, String clientName);
 	
 	public boolean checkRestaurantIdIsUnique(OrderContainer inputOrderContainer); 
 	
@@ -33,5 +34,15 @@ public interface IControllerHelper {
 	public ICoursierService getCoursierService();
 	
 	public IClientService getClientService();
+	
+	public ETAResponse getEtaAllFoods();
+	
+	public ETAResponse getEtaFoodByName(String foodName, String deliveryAddress);
+	
+	public ETAResponse getEtaMenuByName(String menuName, String deliveryAddress);
+	
+	public Order setOrderReadyForDelivery(long orderId);
+	
+	public Order validateOrderDelivery(String coursierName, long orderId);
 	
 }

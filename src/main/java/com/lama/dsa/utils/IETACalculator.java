@@ -1,6 +1,6 @@
 package com.lama.dsa.utils;
 
-public interface IETAComputer {
+public interface IETACalculator {
 
 	/**
 	 * Computes the "Time Before Eating The Ordered Food".

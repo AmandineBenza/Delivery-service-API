@@ -19,7 +19,19 @@ public interface IControllerHelper {
 	
 	public List<Long> getRestaurantIdsFromName(String restaurantName);
 	
+	public ETAResponse getWholeCatalogue();
+	
+	public ETAResponse getEtaAllMenus();
+	
+	public ETAResponse getEtaFoodByName(String foodName, String deliveryAddress);
+	
+	public ETAResponse getEtaMenuByName(String menuName, String deliveryAddress);
+	
 	public ETAResponse computeFoodOrder(OrderContainer inputOrderContainer, String address, String clientName);
+	
+	public Order setOrderReadyForDelivery(long orderId);
+	
+	public Order validateOrderDelivery(String coursierName, long orderId);
 	
 	public boolean checkRestaurantIdIsUnique(OrderContainer inputOrderContainer); 
 	
@@ -34,15 +46,5 @@ public interface IControllerHelper {
 	public ICoursierService getCoursierService();
 	
 	public IClientService getClientService();
-	
-	public ETAResponse getEtaAllFoods();
-	
-	public ETAResponse getEtaFoodByName(String foodName, String deliveryAddress);
-	
-	public ETAResponse getEtaMenuByName(String menuName, String deliveryAddress);
-	
-	public Order setOrderReadyForDelivery(long orderId);
-	
-	public Order validateOrderDelivery(String coursierName, long orderId);
 	
 }

@@ -84,7 +84,7 @@ public class TestController {
 		when(ms.getAll()).thenReturn(new ArrayList<Menu>());
 		
 	    ETAResponse etaResponse = new ETAResponse();
-	    when(ch.getEtaAllFoods()).thenReturn(etaResponse);
+	    when(ch.getWholeCatalogue()).thenReturn(etaResponse);
 	    
 		//assert that when no foods are retrieve a 404 not fond response is sent
 		assertEquals(new ResponseEntity<ETAResponse>(etaResponse , HttpStatus.NO_CONTENT), controller.getAllFoods());
@@ -102,7 +102,7 @@ public class TestController {
 		eta.add(menu);
 		
 		ResponseEntity<ETAResponse> response = new ResponseEntity<ETAResponse>(eta, HttpStatus.OK);
-		when(ch.getEtaAllFoods()).thenReturn(eta);
+		when(ch.getWholeCatalogue()).thenReturn(eta);
 		//assert that the good Foods are returned 
 		assertEquals(response, controller.getAllFoods());
 	}

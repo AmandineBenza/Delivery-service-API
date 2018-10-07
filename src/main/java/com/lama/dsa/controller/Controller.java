@@ -90,7 +90,8 @@ public class Controller {
 		if(response.hasNoContent()){
 			return new ResponseEntity(response.getContent(), HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity(response, HttpStatus.NO_CONTENT);
+		
+		return new ResponseEntity(response, HttpStatus.OK);
 	}
 
 	/**

@@ -118,10 +118,11 @@ public class TestController {
 		ETAResponse eta = new ETAResponse();
 		eta.add(foods);
 		
-
 		ResponseEntity<ETAResponse> response = new ResponseEntity<ETAResponse>(eta, HttpStatus.OK);
 
 		when(ch.getEtaFoodByName("plat 1","Address X")).thenReturn(eta);
+		when(ch.getEtaFoodByName("plat 2","Address X")).thenReturn(new ETAResponse());
+		
 		assertEquals(response, controller.getFoodByName("plat 1","Address X"));
 		assertEquals(new ResponseEntity(new ArrayList<IResponseComponent>(), HttpStatus.NO_CONTENT),
 				controller.getFoodByName("plat 2","Address X"));
@@ -133,8 +134,6 @@ public class TestController {
 		List<Menu> menus = singletonList(menu);
 		ETAResponse eta = new ETAResponse();
 		eta.add(menus);
-
-		ResponseEntity<ETAResponse> response = new ResponseEntity<ETAResponse>(eta, HttpStatus.OK);
 
 		when(ch.getMenuService()).thenReturn(ms);
 		when(ms.getMenuByName("Fabulous menu for a fabulous being")).thenReturn(menus);
@@ -193,14 +192,6 @@ public class TestController {
 
 	@Test
 	public void testOrderFood() {
-
-
-		Food food = new Food(0, 0L, 2.0f, "TestFood", "Food to test foods");
-		List<Food> foods = singletonList(food);
-
-		Menu menu = new Menu(0L, 0L, 14.5f, "Fabulous menu for a fabulous being", singletonList(1L));
-		List<Menu> menus = singletonList(menu);
-
 		OrderContainer orderContainer = new OrderContainer();
 		when(ch.checkRestaurantIdIsUnique(orderContainer)).thenReturn(true);
 		when(ch.getOrderService()).thenReturn(os);
@@ -223,7 +214,6 @@ public class TestController {
 	public void testFoodToDeliver() {
 		Order order1 = new Order(0L,1L,2L,"Adress of a fantastic customer", 0, new Date(), new Date(), 
 				EnumOrderStatus.ONGOING, singletonList(0L), singletonList(0L), 42L);
-		Coursier coursier = new Coursier(0,"A man",EnumCoursierStatus.AVAILABLE);
 		when(ch.setOrderReadyForDelivery(0l)).thenReturn(order1);
 		ResponseEntity<Order> response = new ResponseEntity<Order>(order1, HttpStatus.OK);
 		assertEquals(response,controller.sendToDeliver(0l));

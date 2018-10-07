@@ -213,7 +213,7 @@ public class ControllerHelper implements IControllerHelper{
 		Coursier coursier = coursierService.getByName(coursierName).get(0);
 		coursier.setStatus(EnumCoursierStatus.AVAILABLE);
 		order = orderService.getOrdersById(orderId).get(0);
-		this.coursierService.update(coursier);
+		coursierService.update(coursier);
 		return order;
 	}
 

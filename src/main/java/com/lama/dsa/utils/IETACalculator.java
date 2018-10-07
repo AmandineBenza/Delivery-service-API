@@ -3,7 +3,7 @@ package com.lama.dsa.utils;
 public interface IETACalculator {
 
 	/**
-	 * Computes the "Time Before Eating The Ordered Food".
+	 * Computes the "Estimated time of arrival".
 	 *
 	 * @param from start location
 	 * @param to end location

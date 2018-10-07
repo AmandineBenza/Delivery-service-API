@@ -9,7 +9,9 @@ import com.lama.dsa.model.order.Coursier;
 import com.lama.dsa.model.order.EnumCoursierStatus;
 import com.lama.dsa.model.order.EnumOrderStatus;
 import com.lama.dsa.model.order.Order;
+import com.lama.dsa.model.order.OrderContainer;
 import com.lama.dsa.model.restaurant.Restaurant;
+import com.lama.dsa.service.coursier.CoursierService;
 import com.lama.dsa.service.food.FoodService;
 import com.lama.dsa.service.menu.MenuService;
 import com.lama.dsa.service.order.OrderService;
@@ -28,12 +30,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,37 +44,40 @@ import java.util.List;
 @ContextConfiguration(classes = {Application.class})
 @AutoConfigureMockMvc
 public class TestController {
-	
-    @Autowired
-    private Controller testC;
-	
-    @InjectMocks
-    private Controller controller;
-    
-    @Mock
-    private ControllerHelper ch;
 
-    @Mock
-    private FoodService fs;
-    
-    @Mock
-    private RestaurantService rs;
-    
-    @Mock
-    private OrderService os;
-    
-    @Mock
-    private MenuService ms;
-    
-    @Before
-    public void setUp(){
-        MockitoAnnotations.initMocks(this);
-    }
-    
-    @Test
-    public void contexLoads() throws Exception {
-        assertThat(testC).isNotNull();
-    }
+	@Autowired
+	private Controller testC;
+
+	@InjectMocks
+	Controller controller;
+
+	@Mock
+	ControllerHelper ch;
+
+	@Mock
+	FoodService fs;
+
+	@Mock
+	RestaurantService rs;
+
+	@Mock
+	OrderService os;
+
+	@Mock
+	MenuService ms;
+
+	@Mock
+	CoursierService cs;
+
+	@Before
+	public void setUp(){
+		MockitoAnnotations.initMocks(this);
+	}
+
+	@Test
+	public void contexLoads() throws Exception {
+		assertThat(testC).isNotNull();
+	}
 
 	@Test
 	public void testGetAllFoodService() {
@@ -83,12 +86,12 @@ public class TestController {
 		when(ch.getMenuService()).thenReturn(ms);
 		when(ms.getAll()).thenReturn(new ArrayList<Menu>());
 		
-	    ETAResponse etaResponse = new ETAResponse();
+		ETAResponse etaResponse = new ETAResponse();
 	    when(ch.getWholeCatalogue()).thenReturn(etaResponse);
 	    
 		//assert that when no foods are retrieve a 404 not fond response is sent
-		assertEquals(new ResponseEntity<ETAResponse>(etaResponse , HttpStatus.NO_CONTENT), controller.getAllFoods());
-		
+		assertEquals(new ResponseEntity<ETAResponse>(etaResponse , HttpStatus.NO_CONTENT), controller.getWholeCatalogue());
+
 		Food food = new Food(0, 0, 2.0f, "TestFood", "Food to test foods");
 		List<Food> foods = singletonList(food);
 		when(fs.getAll()).thenReturn(foods);
@@ -104,9 +107,9 @@ public class TestController {
 		ResponseEntity<ETAResponse> response = new ResponseEntity<ETAResponse>(eta, HttpStatus.OK);
 		when(ch.getWholeCatalogue()).thenReturn(eta);
 		//assert that the good Foods are returned 
-		assertEquals(response, controller.getAllFoods());
+		assertEquals(response, controller.getWholeCatalogue());
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void testFoodInformation() {
@@ -114,11 +117,6 @@ public class TestController {
 		List<Food> foods = singletonList(food);
 		ETAResponse eta = new ETAResponse();
 		eta.add(foods);
-		
-		when(ch.getFoodService()).thenReturn(fs);
-		when(fs.getFoodByName("plat 1")).thenReturn(foods);
-		when(ch.getRestaurantService()).thenReturn(rs);
-		when(rs.getById(0)).thenReturn( new Restaurant(0L, 25, "Fabulous Restaurant", "Fabulous Adress for a fabulous restaurant", "Fabulous adress for a fabulous restaurant"));
 		
 		ResponseEntity<ETAResponse> response = new ResponseEntity<ETAResponse>(eta, HttpStatus.OK);
 
@@ -136,11 +134,11 @@ public class TestController {
 		List<Menu> menus = singletonList(menu);
 		ETAResponse eta = new ETAResponse();
 		eta.add(menus);
-		
+
 		when(ch.getMenuService()).thenReturn(ms);
 		when(ms.getMenuByName("Fabulous menu for a fabulous being")).thenReturn(menus);
 	}
-	
+
 	@Test
 	public void testRestaurantOrders() {
 		Order order1 = new Order(0L,1L,2L,"Adress of a fantastic customer", 0, new Date(), new Date(), 
@@ -148,45 +146,92 @@ public class TestController {
 		Order order2 = new Order(1L,1L,3L,"Adress of another fantastic customer", 1, new Date(), new Date(), 
 				EnumOrderStatus.TODELIVER, singletonList(2L), singletonList(2L), 24L);
 		Restaurant restaurant = new Restaurant(1L, 25, "Fabulous Restaurant", "Fabulous Adress for a fabulous restaurant", "Fabulous adress for a fabulous restaurant");
-		
+
 		List<Restaurant> restaurants = singletonList(restaurant);
 		List<Long> restaurantsIds = singletonList(restaurants.get(0).getId());
 		List<Order> orders = new ArrayList<>();
 		orders.add(order1);
 		orders.add(order2);
-		
+
 		ResponseEntity<List<Order>> response = new ResponseEntity<List<Order>>(orders, HttpStatus.OK);
-		
+
 		when(ch.getOrderService()).thenReturn(os);
 		when(ch.getRestaurantIdsFromName("Fabulous Restaurant")).thenReturn(restaurantsIds);
 		when(os.getOrdersByRestaurantIds(restaurantsIds)).thenReturn(orders);
-		
+
 		assertEquals(response, controller.getOrdersByRestaurantName("Fabulous Restaurant"));
 		assertEquals(new ResponseEntity<List<Order>>(new ArrayList<Order>(),HttpStatus.NO_CONTENT), controller.getOrdersByRestaurantName("Not so fabulous restaurant"));
 	}
-	
+
 	@Test
 	public void testCoursierOrders() {
+
 		Order order1 = new Order(0L,1L,2L,"Adress of a fantastic customer", 0, new Date(), new Date(), 
 				EnumOrderStatus.ONGOING, singletonList(1L), singletonList(1L), 42L);
 		Order order2 = new Order(1L,1L,3L,"Adress of another fantastic customer", 1, new Date(), new Date(), 
 				EnumOrderStatus.TODELIVER, singletonList(2L), singletonList(2L), 24L);		
 		Coursier coursier = new Coursier(0L, "Jean-Eudes", EnumCoursierStatus.AVAILABLE);
-		
+
 		List<Coursier> coursiers = singletonList(coursier);
 		List<Long> coursiersIds = singletonList(coursiers.get(0).getId());	
 		List<Order> orders = new ArrayList<>();
 		orders.add(order1);
 		orders.add(order2);
-		
+
 		ResponseEntity<List<Order>> response = new ResponseEntity<List<Order>>(orders, HttpStatus.OK);
-		
+
 		when(ch.getOrderService()).thenReturn(os);
 		when(ch.getCoursierIdsFromName("Jean-Eudes")).thenReturn(coursiersIds);
 		when(os.getOrdersByCoursierIds(coursiersIds)).thenReturn(orders);
-		
+
 		assertEquals(response, controller.getOrdersByCoursierName("Jean-Eudes"));
 		assertEquals(new ResponseEntity<List<Order>>(new ArrayList<Order>(),HttpStatus.NO_CONTENT), controller.getOrdersByCoursierName("Someone who's not Jean-Eudes"));
+
 	}
+
+
+	@Test
+	public void testOrderFood() {
+		OrderContainer orderContainer = new OrderContainer();
+		when(ch.checkRestaurantIdIsUnique(orderContainer)).thenReturn(true);
+		when(ch.getOrderService()).thenReturn(os);
+
+		Order order1 = new Order(0L,1L,2L,"Adress of a fantastic customer", 0, new Date(), new Date(), 
+				EnumOrderStatus.ONGOING, singletonList(0L), singletonList(0L), 42L);
+
+		ETAResponse eta = new ETAResponse();
+		eta.add(order1);
+		when(ch.computeFoodOrder(orderContainer,"Client address" , "Client name")).thenReturn(eta);
+
+		ResponseEntity<ETAResponse> response = new ResponseEntity<ETAResponse>(eta, HttpStatus.OK);
+		assertEquals(response, controller.orderFood( "Client name",
+				"Client address",
+				orderContainer));
 	
+	}
+
+	@Test
+	public void testFoodToDeliver() {
+		Order order1 = new Order(0L,1L,2L,"Adress of a fantastic customer", 0, new Date(), new Date(), 
+				EnumOrderStatus.ONGOING, singletonList(0L), singletonList(0L), 42L);
+		when(ch.setOrderReadyForDelivery(0l)).thenReturn(order1);
+		ResponseEntity<Order> response = new ResponseEntity<Order>(order1, HttpStatus.OK);
+		assertEquals(response,controller.sendToDeliver(0l));
+	}
+
+
+	@Test
+	public void testDeliverFood() {
+		Order order1 = new Order(1L,1L,2L,"Adress of a fantastic customer2", 0, new Date(), new Date(), 
+				EnumOrderStatus.TODELIVER, singletonList(0L), singletonList(0L), 42L);
+		Coursier coursier = new Coursier(0,"A man",EnumCoursierStatus.DELIVERING);
+		when(ch.getOrderService()).thenReturn(os);
+		when(os.getOrdersById(0)).thenReturn(singletonList(order1));
+		when(ch.getCoursierService()).thenReturn(cs);
+		when(cs.getByName("A man")).thenReturn(singletonList(coursier));
+		when(ch.validateOrderDelivery("A man", 1l)).thenReturn(order1);
+		ResponseEntity<Order> response = new ResponseEntity<Order>(order1, HttpStatus.OK);
+		assertEquals(response,controller.deliverFood("A man",1L));
+		
+	}
 }

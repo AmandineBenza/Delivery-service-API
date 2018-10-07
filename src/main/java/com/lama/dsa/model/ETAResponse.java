@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Custom response used to regroup response content and ETA. 
+ */
 public class ETAResponse {
 	
 	private long ETA;

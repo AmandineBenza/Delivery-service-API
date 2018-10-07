@@ -4,6 +4,9 @@ import java.util.Random;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * Computes the "Estimated time of arrival".
+ */
 @Component
 public class ETACalculator implements IETACalculator{
 

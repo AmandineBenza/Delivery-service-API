@@ -50,6 +50,8 @@ public class CoursierService implements ICoursierService {
 	 */
 	@Override
 	public Coursier update(Coursier coursier) {
-		return coursierRepository.save(coursier);
+		coursierRepository.delete(coursier);
+		return coursierRepository.insert(coursier);
+		// return coursierRepository.save(coursier);
 	}
 }

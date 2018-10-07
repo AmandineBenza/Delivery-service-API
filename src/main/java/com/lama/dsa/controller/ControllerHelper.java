@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lama.dsa.model.ETAResponse;
+import com.lama.dsa.model.client.Client;
 import com.lama.dsa.model.food.Food;
 import com.lama.dsa.model.food.Menu;
 import com.lama.dsa.model.order.Coursier;
@@ -130,14 +131,30 @@ public class ControllerHelper implements IControllerHelper{
 	public ETAResponse computeFoodOrder(OrderContainer inputOrderContainer, String address, String clientName) {
 		// We need to get the departure address in order to compute the ET	
 		// The departure address is the restaurant address
-		long restaurantId = inputOrderContainer.getFoods().get(0).getRestaurantId();
+		List<Food> foods = inputOrderContainer.getFoods();
+		long restaurantId = 0;
+		
+		if(!foods.isEmpty()) {
+			restaurantId = foods.get(0).getRestaurantId();
+		} else {
+			List<Menu> menus = inputOrderContainer.getMenus();
+			if(!menus.isEmpty()) {
+				restaurantId = menus.get(0).getRestaurantId();
+			}
+		}
+		
 		String restaurantAddress = restaurantService.getById(restaurantId).getAddress();
 
 		// Calculation of the Estimated Time of Arrival
 		long eta = ETACalculator.getInstance().compute(restaurantAddress, address);
 		// Get the client identifier to put in the order producted
-		long clientId = clientService.getClientByName(clientName).get(0).getId();
-
+		List<Client> clients = clientService.getClientByName(clientName);
+		long	 clientId = 0;
+		
+		if(!clients.isEmpty()) {
+			clientId = clientService.getClientByName(clientName).get(0).getId();
+		}
+		
 		// Get an available coursier.
 		// We assume that there will always be a coursier available for the MVP.
 		Coursier firstAvailableCoursier  = coursierService.getByStatus(EnumCoursierStatus.AVAILABLE).get(0);

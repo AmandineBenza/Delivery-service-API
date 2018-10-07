@@ -34,7 +34,7 @@ public class CoursierService implements ICoursierService {
 	 */
 	@Override
 	public Coursier insert(Coursier coursier) {
-		return  coursierRepository.insert(coursier);
+		return coursierRepository.insert(coursier);
 	}
 
 	/**

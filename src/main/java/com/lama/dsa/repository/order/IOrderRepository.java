@@ -29,5 +29,5 @@ public interface IOrderRepository extends MongoRepository<Order, Integer> {
 	/**
 	 * Find orders given an order id.
 	 */
-    public List<Order> getOrdersById(long id);
+    public List<Order> findById(long id);
 }

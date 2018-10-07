@@ -1,6 +1,6 @@
 id | name | address | description
 
-* 0  | Sun City Cafe | 230 Route des Dolines, 06560 Valbonne | Americain dinner
+* 0 | Sun City Cafe | 230 Route des Dolines, 06560 Valbonne | Americain dinner
 
 * 1 | Chez Max | 20-22 Cours Fragonard - Quartier Garbejaire, 06560 Valbonne | Hamburger Restaurant
 
@@ -8,4 +8,4 @@ id | name | address | description
 
 * 3 | Sushi For You | Place Sophie Laffitte, 06560 Valbonne | Sushi restaurant
 
-* 4 | Pizza FAFA | 1 Avenue Georges Pompidou, 06560 Valbonne | Pizza truck 
+* 4 | Pizza FAFA | 1 Avenue Georges Pompidou, 06560 Valbonne | Pizza truck

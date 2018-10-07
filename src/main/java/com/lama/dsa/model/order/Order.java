@@ -38,6 +38,10 @@ public class Order implements IResponseComponent {
 		this.menuIds = menuIds;
 		this.eta = eta;
 	}
+	
+	public Order() {
+		
+	}
 
 	public long getId() {
 		return id;

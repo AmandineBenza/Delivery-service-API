@@ -17,6 +17,10 @@ public class Client {
         this.name = name;
         this.address = address;
     }
+    
+    public Client() {
+    	
+    }
 
     public Client(String name) {
         this.name = name;

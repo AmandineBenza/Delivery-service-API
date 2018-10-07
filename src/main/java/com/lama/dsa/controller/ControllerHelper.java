@@ -193,7 +193,7 @@ public class ControllerHelper implements IControllerHelper{
 			Coursier firstAvailableCoursier  = coursierService.getByStatus(EnumCoursierStatus.AVAILABLE).get(0);
 			firstAvailableCoursier.setStatus(EnumCoursierStatus.DELIVERING);
 			coursierService.update(firstAvailableCoursier);
-			order = orderService.getOrdersById(orderId).get(0);
+			// order = orderService.getOrdersById(orderId).get(0);
 		}
 		
 		return order;
@@ -212,7 +212,7 @@ public class ControllerHelper implements IControllerHelper{
 		// We assume that name is also an id
 		Coursier coursier = coursierService.getByName(coursierName).get(0);
 		coursier.setStatus(EnumCoursierStatus.AVAILABLE);
-		order = orderService.getOrdersById(orderId).get(0);
+		// order = orderService.getOrdersById(orderId).get(0);
 		coursierService.update(coursier);
 		return order;
 	}
